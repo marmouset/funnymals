@@ -1,0 +1,73 @@
+{#
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+    </div>
+</form>
+#}
+
+
+
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+
+{% block titlePage %}
+    <div class="h3">{{ 'infosProfile'|trans }}</div>
+{% endblock %}
+
+
+<div  class="row">
+    <div class="col-xs-offset-3 col-xs-6">
+        <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal fos_user_profile_edit">
+
+            <div class="form-group">
+                {#<span class="input-group-addon" for="username" id="sizing-addon2">{{ 'form.username'|trans }}</span>#}
+                {#<input class="form-control" type="text" id="username" name="_username" value="" required="required" />#}
+                <div class="input-group centre">
+                    {{ form_errors(form.username) }}
+                    <label class="input-group-addon">{{ 'form.username'|trans }}</label>
+                    {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group centre">
+                    {{ form_errors(form.email) }}
+                    <label class="input-group-addon">{{ 'form.email'|trans }}</label>
+                    {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group centre">
+                    {{ form_errors(form.first_name) }}
+                    <label class="input-group-addon">{{ 'firstName'|trans }}</label>
+                    {{ form_widget(form.first_name, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group centre">
+                    {{ form_errors(form.last_name) }}
+                    <label class="input-group-addon">{{ 'lastName'|trans }}</label>
+                    {{ form_widget(form.last_name, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+            </div>
+
+        </form>
+    </div>

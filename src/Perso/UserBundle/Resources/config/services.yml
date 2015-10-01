@@ -1,0 +1,9 @@
+services:
+#    perso_user.example:
+#        class: Perso\UserBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+      perso_user.profile.form.type:
+              class: Perso\UserBundle\Form\ProfileFormType
+              arguments: [%fos_user.model.user.class%]
+              tags:
+                  - { name: form.type, alias: my_user_profile }

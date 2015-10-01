@@ -1,0 +1,19 @@
+{# src/Perso/GalerieBundle/Resources/views/layout.html.twig #}
+
+{% extends "::base.html.twig" %}
+
+{% block title %}
+    Galerie - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
+
+        {% block titlePage %}
+            Galerie d'images
+        {% endblock %}
+    <hr>
+
+
+{% endblock %}

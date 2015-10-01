@@ -1,0 +1,22 @@
+perso_galerie_homepage:
+    path:     /{page}
+    defaults: { _controller: PersoGalerieBundle:Galerie:index, page: 1 }
+    requirements:
+        page:  \d+
+
+
+perso_galerie_addPhoto:
+    path:     /newPic
+    defaults: { _controller: PersoGalerieBundle:Galerie:addPhoto }
+
+perso_galerie_viewOne:
+    path:      /view/{slug}
+    defaults:  { _controller: PersoGalerieBundle:Galerie:voir }
+
+perso_galerie_voteOui:
+    path:     /voteUp/{slug}
+    defaults:  { _controller: PersoGalerieBundle:Galerie:voteUp }
+
+perso_galerie_voteNon:
+    path:     /voteDown/{slug}
+    defaults:  { _controller: PersoGalerieBundle:Galerie:voteDown }

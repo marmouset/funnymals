@@ -1,0 +1,33 @@
+<?php
+// src/Perso/GalerieBundle/Entity/VoteUserPhoto.php
+
+namespace Perso\GalerieBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ */
+class VoteUserPhoto
+{
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Perso\GalerieBundle\Entity\Photo", inversedBy="voteUserPhoto")
+     */
+    private $photo;
+
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Perso\UserBundle\Entity\User")
+     */
+    private $user;
+
+    /**
+     * @var datetime $date
+     *
+     * @ORM\Column(name="date", type="datetime")
+     * @Assert\DateTime()
+     */
+    private $date;
+}

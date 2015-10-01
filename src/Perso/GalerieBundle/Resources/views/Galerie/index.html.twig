@@ -1,0 +1,87 @@
+{# src/Perso/GalerieBundle/Resources/views/Galerie/index.html.twig #}
+
+{% extends "PersoGalerieBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        [class*="col"] { margin-bottom: 15px; }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    {% block titlePage %}
+        <div class="h3">Liste des photos</div>
+    {% endblock %}
+    <div class="row">
+
+
+
+        <div class="thumbnail col-xs-6 col-sm-4 col-md-3">
+
+            <div onclick="window.location='{{ path('perso_galerie_addPhoto') }}'" class="thumbnail coverImg empty">Ajoutez une photo</div>
+
+            <div class="caption">
+                <h4>{{ 'newPic'|trans }}</h4>
+                <p>-</p>
+                <p>
+                    <a href="{{ path('perso_galerie_addPhoto') }}" class="btn btn-primary glyphicon glyphicon-plus" role="button"></a>
+                </p>
+            </div>
+        </div>
+
+
+        {% for photo in photos %}
+
+            <div class="thumbnail col-xs-6 col-sm-4 col-md-3">
+
+                <div onclick="window.location='{{ path('perso_galerie_viewOne',{'slug':photo.slug}) }}'" class="thumbnail coverImg" style="background-image:url({{ asset('img/') }}{{ photo.url }})"></div>
+
+                <div class="caption">
+                    <h4>
+                        {% if '' == photo.legende %}
+                            -
+                        {% else %}
+                            {{ photo.legende }}
+                        {% endif %}
+                    </h4>
+                    <p>
+                        {% if '' == photo.descriptif %}
+                            -
+                        {% else %}
+                            {% if photo.descriptif|length > 32 %}
+                                {{ photo.descriptif | truncate(32, true, '...') }}
+                            {% else %}
+                                {{ photo.descriptif }}
+                            {% endif %}
+                        {% endif %}
+                    </p>
+                    <p>
+                        {{ photo.user.username }}
+                    </p>
+                    <p>
+                        <a href="{{ path('perso_galerie_voteOui', {'slug': photo.slug}) }}" class="btn btn-success glyphicon glyphicon-thumbs-up" role="button"></a>
+                        <a href="{{ path('perso_galerie_voteNon', {'slug': photo.slug}) }}" class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button"></a>
+
+                    </p>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    <nav>
+        <ul class="pagination">
+            {% for p in range(1, nombrePage) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('perso_galerie_homepage', {'page': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+
+
+{% endblock %}
+

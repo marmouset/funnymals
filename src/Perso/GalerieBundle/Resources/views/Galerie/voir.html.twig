@@ -1,0 +1,27 @@
+{# src/Perso/GalerieBundle/Resources/views/Galerie/index.html.twig #}
+
+{% extends "PersoGalerieBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        [class*="col"] { margin-bottom: 15px; }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    {% block titlePage %}
+        <div class="h3">Détails pour la photo : {{ photo.legende }}</div>
+    {% endblock %}
+
+    <div class="row">
+
+        <div class="thumbnail col-md-4 col-md-offset-4">
+            <img src="{{ asset('img/') }}{{ photo.url }}" />
+        </div>
+
+    </div>
+    <a href="{{ path('perso_galerie_homepage') }}">Revenir à la liste</a>
+{% endblock %}
+

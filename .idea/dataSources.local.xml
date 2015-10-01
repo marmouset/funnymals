@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - galerie@localhost" uuid="24e48667-c845-4bfc-aa4e-5b21c088c1a9">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>galerie.*</schema-pattern>
+      <default-schemas>galerie.*</default-schemas>
+    </data-source>
+  </component>
+</project>

@@ -1,0 +1,42 @@
+{# src/Perso/GalerieBundle/Resources/views/Galerie/addPhoto.html.twig #}
+
+{% extends "PersoGalerieBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        [class*="col"] { margin-bottom: 15px; }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    {% block titlePage %}
+        <div class="h3">Proposez une nouvelle photo</div>
+    {% endblock %}
+
+    <div class="row">
+
+        <div class="thumbnail col-md-4 col-md-offset-4">
+
+
+            <div class="well">
+                <form method="post" {{ form_enctype(form) }}>
+
+                    {{ form_widget(form) }}
+
+
+                    {#
+                    {{ form_label(form.url) }}
+                    {{ form_errors(form.url) }}
+                    {{ form_widget(form.url) }}
+                    #}
+                    <input type="submit" class="btn btn-primary" />
+                </form>
+            </div>
+        </div>
+    </div>
+<a href="{{ path('perso_galerie_homepage') }}">Revenir à la liste</a>
+{% endblock %}
+
+

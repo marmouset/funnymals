@@ -1,0 +1,43 @@
+<?php
+
+namespace Perso\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="fos_user")
+ */
+class User extends BaseUser
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string $last_name
+     *
+     * @ORM\Column(name="last_name", type="string", length=255)
+     */
+    private $last_name;
+
+    /**
+     * @var string $first_name
+     *
+     * @ORM\Column(name="first_name", type="string", length=255)
+     */
+    private $first_name;
+
+    public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+
+    }
+}
+

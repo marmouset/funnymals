@@ -1,0 +1,56 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{% block titlePage %}
+    <div class="h3">{{ 'newUser'|trans }}</div>
+{% endblock %}
+
+
+    <div  class="row">
+    <div class="col-xs-offset-3 col-xs-6">
+        <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal fos_user_registration_register">
+
+            <div class="form-group">
+                {#<span class="input-group-addon" for="username" id="sizing-addon2">{{ 'form.username'|trans }}</span>#}
+                {#<input class="form-control" type="text" id="username" name="_username" value="" required="required" />#}
+                <div class="input-group centre">
+                    {{ form_errors(form.username) }}
+                    <label class="input-group-addon">{{ 'form.username'|trans }}</label>
+                    {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group centre">
+                    {{ form_errors(form.email) }}
+                    <label class="input-group-addon">{{ 'form.email'|trans }}</label>
+                    {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_errors(form.plainPassword.first) }}
+                <div class="input-group centre">
+                    <label class="input-group-addon">{{ 'form.password'|trans }}</label>
+                    {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group centre">
+                    <label class="input-group-addon">{{ 'form.password_confirmation'|trans }}</label>
+                    {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{  form_rest(form) }}
+                <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans }}" />
+            </div>
+
+        </form>
+    </div>
