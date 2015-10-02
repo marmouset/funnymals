@@ -63,15 +63,22 @@ class GalerieController extends Controller
             $em->persist($photoGet);
 
             $em->flush();
-            $this->get('session')->getFlashBag()->add('info', 'Votre vote a bien été pris en compte');
+
+            $flash = $this->get('translator')->trans('alert.info.voteOk');
+            $this->get('session')->getFlashBag()->add('success', $flash);
+
+            return $this->redirect($this->generateUrl('perso_galerie_viewOne', array('slug' => $photoGet->getSlug())));
         }
         else
         {
-            $this->get('session')->getFlashBag()->add('info', 'Vous avez déjà enregistré un vote pour cette photo');
+            $flash = $this->get('translator')->trans('alert.info.voteNotOk');
+            $this->get('session')->getFlashBag()->add('danger', $flash);
+
+            return $this->redirect($this->generateUrl('perso_galerie_homepage'));
         }
 
 
-        return $this->redirect($this->generateUrl('perso_galerie_homepage'));
+
     }
 
     public function addPhotoAction()

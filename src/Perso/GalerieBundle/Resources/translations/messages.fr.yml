@@ -1,1 +1,5 @@
 newPic: NOUVELLE PHOTO
+alert:
+    info:
+        voteOk: Votre vote a bien été pris en compte
+        voteNotOk: Vous avez déjà enregistré un vote pour cette photo

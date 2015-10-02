@@ -69,6 +69,15 @@
                 </div><!-- /.container-fluid -->
             </nav>
 
+            {# On affiche les messages flash que définissent les contrôleurs du bundle #}
+            {% for key, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+
+                    <div class="alert alert-{{ key }}">{{ message|trans }}</div>
+
+                {% endfor %}
+            {% endfor %}
+
             {% block body %}{% endblock %}
 
         </div>
@@ -77,6 +86,7 @@
             {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
             <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
         {% endblock %}
     </body>
 

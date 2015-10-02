@@ -15,6 +15,10 @@
     background-color:#eee;
 }
 
+.alert {
+    cursor:pointer;
+}
+
 .myLabel {
     width:70px;
 }
