@@ -151,7 +151,10 @@ class Photo
         return $this->url;
     }
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="Perso\GalerieBundle\Entity\Commentaire", mappedBy="photo")
+     */
+    private $commentaires;
 
 
     // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre
@@ -238,7 +241,7 @@ class Photo
     public function getUploadDir()
     {
         // On retourne le chemin relatif vers l'image pour un navigateur
-        return 'img';
+        return 'img/uploads';
     }
 
     protected function getUploadRootDir()
@@ -380,4 +383,38 @@ class Photo
         return $this->nbDown;
     }
 
+
+    /**
+     * Add commentaire
+     *
+     * @param \Perso\GalerieBundle\Entity\Commentaire $commentaire
+     *
+     * @return Photo
+     */
+    public function addCommentaire(\Perso\GalerieBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires[] = $commentaire;
+        $commentaire->setPhoto($this); // On ajoute ceci
+        return $this;
+    }
+
+    /**
+     * Remove commentaire
+     *
+     * @param \Perso\GalerieBundle\Entity\Commentaire $commentaire
+     */
+    public function removeCommentaire(\Perso\GalerieBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires->removeElement($commentaire);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
 }

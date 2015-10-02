@@ -17,8 +17,35 @@
 
     <div class="row">
 
-        <div class="thumbnail col-md-4 col-md-offset-4">
-            <img src="{{ asset('img/') }}{{ photo.url }}" />
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Proposée par {{ photo.user.username }}</div>
+                <div class="panel-body">
+
+                    {#<div class="coverImgBig" style="background-image:url({{ asset('img/uploads/') }}{{ photo.url }})"></div>#}
+
+                    <img style="max-width: 100%;height: auto;" class="centre" src="{{ asset('img/uploads/') }}{{ photo.url }}" />
+                    <p>
+                        {{ photo.descriptif }}
+                    </p>
+                    <p>
+                        <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'up'}) }}" class="btn btn-success glyphicon glyphicon-thumbs-up" role="button">
+                            <span class="badge">{{ photo.nbUp }}</span>
+                        </a>
+                        <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'down'}) }}" class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button">
+                            <span class="badge">{{ photo.nbDown }}</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="well">
+                <form method="post">
+                    {{ form_widget(form) }}
+                    <input type="submit" class="btn btn-primary" />
+                </form>
+            </div>
+
         </div>
 
     </div>

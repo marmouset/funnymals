@@ -78,17 +78,15 @@ class Photo
      */
     private $slug;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Perso\GalerieBundle\Entity\VoteUserPhoto", mappedBy="photo")
-     */
-    private $voteUserPhoto;
 
     private $tempFilename;
 
     public function __construct()
     {
         //$this->get('security.context')->getToken()->getUser();
-        //$this->user = $this->curr
+
+        $this->nbUp = 0;
+        $this->nbDown = 0;
     }
 
     public function getFile()
@@ -153,7 +151,10 @@ class Photo
         return $this->url;
     }
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="Perso\GalerieBundle\Entity\Commentaire", mappedBy="photo")
+     */
+    private $commentaires;
 
 
     // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre
@@ -240,7 +241,7 @@ class Photo
     public function getUploadDir()
     {
         // On retourne le chemin relatif vers l'image pour un navigateur
-        return 'img';
+        return 'img/uploads';
     }
 
     protected function getUploadRootDir()
@@ -381,4 +382,5 @@ class Photo
     {
         return $this->nbDown;
     }
+
 }

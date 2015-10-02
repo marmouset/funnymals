@@ -36,7 +36,7 @@
 
             <div class="thumbnail col-xs-6 col-sm-4 col-md-3">
 
-                <div onclick="window.location='{{ path('perso_galerie_viewOne',{'slug':photo.slug}) }}'" class="thumbnail coverImg" style="background-image:url({{ asset('img/') }}{{ photo.url }})"></div>
+                <div onclick="window.location='{{ path('perso_galerie_viewOne',{'slug':photo.slug}) }}'" class="thumbnail coverImg" style="background-image:url({{ asset('img/uploads/') }}{{ photo.url }})"></div>
 
                 <div class="caption">
                     <h4>
@@ -61,8 +61,12 @@
                         {{ photo.user.username }}
                     </p>
                     <p>
-                        <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'up'}) }}" class="btn btn-success glyphicon glyphicon-thumbs-up" role="button"></a>
-                        <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'down'}) }}" class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button"></a>
+                        <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'up'}) }}" class="btn btn-success glyphicon glyphicon-thumbs-up" role="button">
+                            <span class="badge">{{ photo.nbUp }}</span>
+                        </a>
+                        <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'down'}) }}" class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button">
+                            <span class="badge">{{ photo.nbDown }}</span>
+                        </a>
 
                     </p>
                 </div>

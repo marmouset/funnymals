@@ -24,7 +24,7 @@ class VoteUserPhoto
     private $user;
 
     /**
-     * @var datetime $date
+     * @var \DateTime $date
      *
      * @ORM\Column(name="date", type="datetime")
      * @Assert\DateTime()

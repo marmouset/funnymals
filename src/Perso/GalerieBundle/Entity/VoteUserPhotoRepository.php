@@ -3,7 +3,6 @@
 namespace Perso\GalerieBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Perso\GalerieBundle\Entity\Photo;
 
 /**
  * VoteUserPhotoRepository
@@ -13,29 +12,17 @@ use Perso\GalerieBundle\Entity\Photo;
  */
 class VoteUserPhotoRepository extends EntityRepository
 {
-    public function existVoteUser(Photo $photo)
+    public function existVoteUser(Photo $photo, $user)
     {
+        //todo : vérifier l'user
+
         $qb = $this->createQueryBuilder('v');
-        $qb->where('v.photo = :photo')->setParameter('photo', $photo->getId());
+        $qb->where('v.photo = :photo')
+            ->setParameter('photo', $photo->getId())
+            ->andWhere('v.user = :user')
+            ->setParameter('user', $user);
 
         return $qb->getQuery()
             ->getResult();
     }
-    /*
-    public function getAllPhotosDesc($nombreParPage, $page)
-    {
-        if ($page < 1) {
-            throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur : "'.$page.'").');
-        }
-
-        $qb = $this ->createQueryBuilder('p')
-            ->orderBy('p.id', 'DESC');
-
-        $query = $qb->getQuery();
-        $query->setFirstResult(($page-1) * $nombreParPage)
-            ->setMaxResults($nombreParPage);
-
-        return new Paginator($query);
-    }
-    */
 }

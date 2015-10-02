@@ -4,13 +4,17 @@ namespace Perso\GalerieBundle\Controller;
 
 use Perso\GalerieBundle\Entity\Photo;
 use Perso\GalerieBundle\Entity\VoteUserPhoto;
+use Perso\GalerieBundle\Entity\Commentaire;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use Perso\GalerieBundle\Form\CommentaireType;
 use Perso\GalerieBundle\Form\PhotoType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 //use Symfony\Component\HttpFoundation\Response;
 
 class GalerieController extends Controller
 {
+    //page d'accueil du site, affichage des photos
     public function indexAction($page)
     {
         //return $this->render('PersoGalerieBundle:Galerie:index.html.twig', array('name' => $name));
@@ -23,13 +27,39 @@ class GalerieController extends Controller
             'nombrePage' => ceil(count($photos)/7)));
     }
 
+    //affichage d'une photo en particulier et de ses commentaires
     public function voirAction(Photo $photoGet)
     {
         $em = $this->getDoctrine()->getManager();
         $photo = $em->getRepository('PersoGalerieBundle:Photo')->find($photoGet->getId());
-        return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo));
+
+        $commentaire = new Commentaire;
+        $commentaire->setUser($this->get('security.token_storage')->getToken()->getUser());
+        $form = $this->createForm(new CommentaireType, $commentaire);
+
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $form->submit($request);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+
+                $photo->addCommentaire($commentaire);
+                $em->persist($commentaire);
+                $em->flush();
+
+                $flash = $this->get('translator')->trans('alert.info.commentOk');
+                $this->get('session')->getFlashBag()->add('success', $flash);
+
+                return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form' => $form->createView()));
+            }
+        }
+
+        return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form' => $form->createView()));
     }
 
+    //gestion du vote pour une photo
     public function voteAction($typVote, Photo $photoGet)
     {
         $em = $this->getDoctrine()->getManager();
@@ -39,7 +69,7 @@ class GalerieController extends Controller
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
-        $VoteUserPhotos = $em->getRepository("PersoGalerieBundle:VoteUserPhoto")->existVoteUser($photoGet);
+        $VoteUserPhotos = $em->getRepository("PersoGalerieBundle:VoteUserPhoto")->existVoteUser($photoGet,$this->getUser());
 
         $existeVote = false;
         foreach($VoteUserPhotos as $VoteUserPhoto) {
@@ -76,11 +106,9 @@ class GalerieController extends Controller
 
             return $this->redirect($this->generateUrl('perso_galerie_homepage'));
         }
-
-
-
     }
 
+    //ajout d'une nouvelle photo
     public function addPhotoAction()
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
