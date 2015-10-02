@@ -51,12 +51,10 @@ class GalerieController extends Controller
 
                 $flash = $this->get('translator')->trans('alert.info.commentOk');
                 $this->get('session')->getFlashBag()->add('success', $flash);
-
-                return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form' => $form->createView()));
             }
         }
 
-        return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form' => $form->createView()));
+        return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form' => $form->createView(), 'commentaires' => $photo->getCommentaires()));
     }
 
     //gestion du vote pour une photo

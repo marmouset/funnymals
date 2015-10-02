@@ -46,6 +46,13 @@
                 </form>
             </div>
 
+            {% for commentaire in commentaires %}
+                <p>
+                    <strong>{{ commentaire.user.username }}</strong>
+                    {{ commentaire.texte }}
+                </p>
+            {% endfor %}
+
         </div>
 
     </div>
