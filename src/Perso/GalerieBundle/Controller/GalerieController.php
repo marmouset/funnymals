@@ -33,28 +33,31 @@ class GalerieController extends Controller
         $em = $this->getDoctrine()->getManager();
         $photo = $em->getRepository('PersoGalerieBundle:Photo')->find($photoGet->getId());
 
-        $commentaire = new Commentaire;
-        $commentaire->setUser($this->get('security.token_storage')->getToken()->getUser());
-        $form = $this->createForm(new CommentaireType, $commentaire);
+        if(null != $this->getUser())
+        {
+            $commentaire = new Commentaire;
+            $commentaire->setUser($this->getUser());
+            $form = $this->createForm(new CommentaireType, $commentaire);
 
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->submit($request);
+            $request = $this->get('request');
+            if ($request->getMethod() == 'POST') {
+                $form->submit($request);
 
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
 
-                $photo->addCommentaire($commentaire);
-                $em->persist($commentaire);
-                $em->flush();
+                    $photo->addCommentaire($commentaire);
+                    $em->persist($commentaire);
+                    $em->flush();
 
-                $flash = $this->get('translator')->trans('alert.info.commentOk');
-                $this->get('session')->getFlashBag()->add('success', $flash);
+                    $flash = $this->get('translator')->trans('alert.info.commentOk');
+                    $this->get('session')->getFlashBag()->add('success', $flash);
+                }
             }
+            return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form' => $form->createView(), 'commentaires' => $photo->getCommentaires()));
         }
-
-        return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form' => $form->createView(), 'commentaires' => $photo->getCommentaires()));
+        else return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'commentaires' => $photo->getCommentaires()));
     }
 
     //gestion du vote pour une photo

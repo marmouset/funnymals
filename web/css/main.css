@@ -67,3 +67,51 @@
 #menuCollapse {
     margin:0px;padding:0px;overflow:hidden;
 }
+
+#logoFDB {
+    width:150px;
+    height:150px;
+    background-image: url("../img/facedebouk.png");
+    background-size:cover;
+    position:absolute;
+    top:26px;
+}
+
+#titreSite {
+    font-family: fantasy;
+    border-bottom-color: rgb(255, 255, 255);
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgb(255, 255, 255);
+    border-left-style: none;
+    border-left-width: 0px;
+    border-right-color: rgb(255, 255, 255);
+    border-right-style: none;
+    border-right-width: 0px;
+    border-top-color: rgb(255, 255, 255);
+    border-top-style: none;
+    border-top-width: 0px;
+    color: #444;
+    display: block;
+    font-size: 50px;
+    font-stretch: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    letter-spacing: 1.6px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    text-align: center;
+    text-shadow: rgb(204, 204, 204) 0px 1px 0px, rgb(201, 201, 201) 0px 2px 0px, rgb(187, 187, 187) 0px 3px 0px, rgb(185, 185, 185) 0px 4px 0px, rgb(170, 170, 170) 0px 5px 0px, rgba(0, 0, 0, 0.0980392) 0px 6px 1px, rgba(0, 0, 0, 0.0980392) 0px 0px 5px, rgba(0, 0, 0, 0.298039) 0px 1px 3px, rgba(0, 0, 0, 0.2) 0px 3px 5px, rgba(0, 0, 0, 0.247059) 0px 5px 10px, rgba(0, 0, 0, 0.14902) 0px 20px 20px;
+    vertical-align: baseline;
+}

@@ -39,16 +39,19 @@
                 </div>
             </div>
 
-            <div class="well">
-                <form method="post">
-                    {{ form_widget(form) }}
-                    <input type="submit" class="btn btn-primary" />
-                </form>
-            </div>
+            {% if form is defined %}
+                <div class="well">
+                    <form method="post">
+                        {{ form_widget(form) }}
+                        <input type="submit" class="btn btn-primary" />
+                    </form>
+                </div>
+            {% endif %}
 
             {% for commentaire in commentaires %}
-                <p>
-                    <strong>{{ commentaire.user.username }}</strong>
+                <p class="bg-info text-left">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    Le {{ commentaire.createdAt|date("d/m/Y à H:d:s") }}, <strong>{{ commentaire.user.username }} a dit : </strong><br />
                     {{ commentaire.texte }}
                 </p>
             {% endfor %}
