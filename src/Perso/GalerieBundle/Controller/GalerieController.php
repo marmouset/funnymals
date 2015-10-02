@@ -7,7 +7,7 @@ use Perso\GalerieBundle\Entity\VoteUserPhoto;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Perso\GalerieBundle\Form\PhotoType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\Response;
+//use Symfony\Component\HttpFoundation\Response;
 
 class GalerieController extends Controller
 {
@@ -30,7 +30,7 @@ class GalerieController extends Controller
         return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo));
     }
 
-    public function voteDownAction(Photo $photoGet)
+    public function voteAction($typVote, Photo $photoGet)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -43,7 +43,7 @@ class GalerieController extends Controller
 
         $existeVote = false;
         foreach($VoteUserPhotos as $VoteUserPhoto) {
-             //$VoteUserPhoto->getPhoto()->getLegende();
+            //$VoteUserPhoto->getPhoto()->getLegende();
             $existeVote = true;
         }
 
@@ -57,8 +57,9 @@ class GalerieController extends Controller
             $em->persist($newVote);
 
             //ensuite on fait l'update sur Photo et l'insertion dans VoteUserPhoto
-            $recupnbDown = $photoGet->getNbDown();
-            $photoGet->setNbDown($recupnbDown + 1);
+            if($typVote == 'down') $photoGet->setNbDown($photoGet->getNbDown() + 1);
+            else $photoGet->setNbUp($photoGet->getNbUp() + 1);
+
             $em->persist($photoGet);
 
             $em->flush();
@@ -71,24 +72,6 @@ class GalerieController extends Controller
 
 
         return $this->redirect($this->generateUrl('perso_galerie_homepage'));
-
-    }
-
-    public function voteUpAction(Photo $photoGet)
-    {
-        //dans un premier temps on va vérifier si le user courant n'a pas déjà voté pour cette photo
-        if (false === $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('fos_user_security_login'));
-        }
-
-        //ensuite on fait l'update
-        $em = $this->getDoctrine()->getManager();
-        $recupnbUp = $photoGet->getNbUp();
-        $photoGet->setNbUp($recupnbUp + 1);
-        $em->persist($photoGet);
-        $em->flush();
-
-        return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photoGet));
     }
 
     public function addPhotoAction()

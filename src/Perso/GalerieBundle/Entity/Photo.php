@@ -84,7 +84,9 @@ class Photo
     public function __construct()
     {
         //$this->get('security.context')->getToken()->getUser();
-        //$this->user = $this->curr
+
+        $this->nbUp = 0;
+        $this->nbDown = 0;
     }
 
     public function getFile()

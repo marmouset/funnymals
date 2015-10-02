@@ -13,10 +13,8 @@ perso_galerie_viewOne:
     path:      /view/{slug}
     defaults:  { _controller: PersoGalerieBundle:Galerie:voir }
 
-perso_galerie_voteOui:
-    path:     /voteUp/{slug}
-    defaults:  { _controller: PersoGalerieBundle:Galerie:voteUp }
-
-perso_galerie_voteNon:
-    path:     /voteDown/{slug}
-    defaults:  { _controller: PersoGalerieBundle:Galerie:voteDown }
+perso_galerie_vote:
+    path:     /{typVote}/{slug}
+    defaults:  { _controller: PersoGalerieBundle:Galerie:vote }
+    requirements:
+        typVote:  up|down

@@ -8,6 +8,16 @@
 
 {% block body %}
 
+    {# On affiche les messages flash que définissent les contrôleurs du bundle #}
+    {% for key, messages in app.session.flashbag.all() %}
+        hip
+        {% for message in messages %}
+            hop
+            {{ message|trans }}
+
+        {% endfor %}
+    {% endfor %}
+
     {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
 
         {% block titlePage %}

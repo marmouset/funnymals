@@ -61,8 +61,8 @@
                         {{ photo.user.username }}
                     </p>
                     <p>
-                        <a href="{{ path('perso_galerie_voteOui', {'slug': photo.slug}) }}" class="btn btn-success glyphicon glyphicon-thumbs-up" role="button"></a>
-                        <a href="{{ path('perso_galerie_voteNon', {'slug': photo.slug}) }}" class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button"></a>
+                        <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'up'}) }}" class="btn btn-success glyphicon glyphicon-thumbs-up" role="button"></a>
+                        <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'down'}) }}" class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button"></a>
 
                     </p>
                 </div>
