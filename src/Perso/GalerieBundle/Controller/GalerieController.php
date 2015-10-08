@@ -22,6 +22,14 @@ class GalerieController extends Controller
         //$photos = $em->getRepository('PersoGalerieBundle:Photo')->findAll();
         $photos = $em->getRepository('PersoGalerieBundle:Photo')->getAllPhotosDesc(7, $page);
 
+        /*$antispam = $this->container->get('perso_galerieBundle.antispam');
+        $text = 'gfdgfd@fdgfd.com gfdgfd@fdgfd.com ';
+        // Je pars du principe que $text contient le texte d'un message quelconque
+        if ($antispam->isSpam($text)) {
+            throw new \Exception('Votre message a été détecté comme spam !');
+        }
+        */
+
         return $this->render('PersoGalerieBundle:Galerie:index.html.twig', array('photos' => $photos,
             'page'       => $page,
             'nombrePage' => ceil(count($photos)/7)));
@@ -32,6 +40,9 @@ class GalerieController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $photo = $em->getRepository('PersoGalerieBundle:Photo')->find($photoGet->getId());
+
+        //on va récupérer tous les commentaires par ordre décroissant sur le champ createdAt
+        $commentairesRecup = $em->getRepository('PersoGalerieBundle:Commentaire')->getCommentairesByPhotoDesc($photoGet);
 
         if(null != $this->getUser())
         {
@@ -55,9 +66,11 @@ class GalerieController extends Controller
                     $this->get('session')->getFlashBag()->add('success', $flash);
                 }
             }
-            return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form' => $form->createView(), 'commentaires' => $photo->getCommentaires()));
+
+            return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form'      => $form->createView(), 'commentaires' => $commentairesRecup));
         }
-        else return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'commentaires' => $photo->getCommentaires()));
+
+        return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'commentaires' => $commentairesRecup));
     }
 
     //gestion du vote pour une photo

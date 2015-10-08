@@ -78,6 +78,11 @@ class Photo
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Perso\GalerieBundle\Entity\Commentaire", mappedBy="photo")
+     */
+    private $commentaires;
+
 
     private $tempFilename;
 
@@ -151,10 +156,6 @@ class Photo
         return $this->url;
     }
 
-    /**
-     * @ORM\OneToMany(targetEntity="Perso\GalerieBundle\Entity\Commentaire", mappedBy="photo")
-     */
-    private $commentaires;
 
 
     // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre

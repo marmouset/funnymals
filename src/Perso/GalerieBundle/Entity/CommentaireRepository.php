@@ -2,6 +2,8 @@
 
 namespace Perso\GalerieBundle\Entity;
 
+use Perso\GalerieBundle\Entity\Photo as Photo;
+
 /**
  * CommentaireRepository
  *
@@ -10,4 +12,15 @@ namespace Perso\GalerieBundle\Entity;
  */
 class CommentaireRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getCommentairesByPhotoDesc(Photo $photo)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->join('c.photo', 'p')
+            ->where('p.id = :id')
+            ->setParameter('id', $photo->getId())
+            ->orderBy('c.createdAt', 'DESC')
+        ;
+
+       return $qb->getQuery()->getResult();
+    }
 }
