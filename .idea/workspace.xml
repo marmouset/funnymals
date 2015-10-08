@@ -6,17 +6,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="422d1124-7aa8-47e4-9178-53418687a22b" name="Default" comment="Votes up et down ok">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/facedebouk.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Perso/GalerieBundle/Antispam/PersoAntispam.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Perso/GalerieBundle/Entity/CommentaireRepository.php" afterPath="$PROJECT_DIR$/src/Perso/GalerieBundle/Entity/CommentaireRepository.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Perso/GalerieBundle/Controller/GalerieController.php" afterPath="$PROJECT_DIR$/src/Perso/GalerieBundle/Controller/GalerieController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Marmou.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Marmou.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Perso/GalerieBundle/Entity/Photo.php" afterPath="$PROJECT_DIR$/src/Perso/GalerieBundle/Entity/Photo.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/app_dev.php" afterPath="$PROJECT_DIR$/web/app_dev.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/base.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/base.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Perso/GalerieBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/Perso/GalerieBundle/Resources/config/services.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/14438163646581995197401.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/144381657520795666950.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/1443858959986.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/23yb1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/DSC_2482.JPG" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/IMG_9625.JPG" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/images.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/img-2293.JPG" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/img-4735.JPG" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/uploads/realhomer.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Perso/GalerieBundle/Entity/Tag.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Perso/GalerieBundle/Entity/TagRepository.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ProjetPerso.iws" />
@@ -133,8 +134,8 @@
       <file leaf-file-name="Tag.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Perso/GalerieBundle/Entity/Tag.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.38990825">
+              <caret line="20" column="7" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -1203,8 +1204,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Perso/GalerieBundle/Entity/Tag.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.38990825">
+          <caret line="20" column="7" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
           <folding />
         </state>
       </provider>
