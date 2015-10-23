@@ -28,7 +28,10 @@
         "twbs/bootstrap": "^3.3",
         "friendsofsymfony/user-bundle": "dev-master",
         "coresphere/console-bundle": "dev-master",
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^4.8",
+        "cmedia/tag-bundle": "dev-master",
+        "willdurand/js-translation-bundle": "^2.3",
+        "emojione/emojione": "^1.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

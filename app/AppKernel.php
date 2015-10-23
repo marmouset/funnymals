@@ -20,6 +20,9 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Perso\UserBundle\PersoUserBundle(),
+            new CMedia\Bundle\TagBundle\CMediaTagBundle(),
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
+
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

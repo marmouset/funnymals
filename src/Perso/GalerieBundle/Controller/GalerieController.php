@@ -2,7 +2,10 @@
 
 namespace Perso\GalerieBundle\Controller;
 
+use Perso\GalerieBundle\AugmenteVues\AugmenteVuesEvent;
+use Perso\GalerieBundle\AugmenteVues\AugmenteVuesEvents;
 use Perso\GalerieBundle\Entity\Photo;
+use Perso\GalerieBundle\Entity\Tag;
 use Perso\GalerieBundle\Entity\VoteUserPhoto;
 use Perso\GalerieBundle\Entity\Commentaire;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,17 +13,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Perso\GalerieBundle\Form\CommentaireType;
 use Perso\GalerieBundle\Form\PhotoType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
+//use Perso\GalerieBundle\AugmenteVues;
 //use Symfony\Component\HttpFoundation\Response;
 
 class GalerieController extends Controller
 {
     //page d'accueil du site, affichage des photos
-    public function indexAction($page)
+    public function indexAction($page, $tags = null)
     {
         //return $this->render('PersoGalerieBundle:Galerie:index.html.twig', array('name' => $name));
         $em = $this->getDoctrine()->getManager();
         //$photos = $em->getRepository('PersoGalerieBundle:Photo')->findAll();
-        $photos = $em->getRepository('PersoGalerieBundle:Photo')->getAllPhotosDesc(7, $page);
+
+        //récupération via le formulaire de recherche
+        if(isset($_POST["inputRechTags"])) $tags = $_POST["inputRechTags"];
+
+        if(is_null($tags)) $photos = $em->getRepository('PersoGalerieBundle:Photo')->getAllPhotosDesc($this->getParameter('nb_img_by_page'), $page);
+        else {
+            $photos = $em->getRepository('PersoGalerieBundle:Photo')->getAllPhotosTagDesc($this->getParameter('nb_img_by_page'), $page, $tags);
+        }
 
         /*$antispam = $this->container->get('perso_galerieBundle.antispam');
         $text = 'gfdgfd@fdgfd.com gfdgfd@fdgfd.com ';
@@ -32,7 +44,7 @@ class GalerieController extends Controller
 
         return $this->render('PersoGalerieBundle:Galerie:index.html.twig', array('photos' => $photos,
             'page'       => $page,
-            'nombrePage' => ceil(count($photos)/7)));
+            'nombrePage' => ceil(count($photos)/$this->getParameter('nb_img_by_page'))));
     }
 
     //affichage d'une photo en particulier et de ses commentaires
@@ -40,6 +52,25 @@ class GalerieController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $photo = $em->getRepository('PersoGalerieBundle:Photo')->find($photoGet->getId());
+
+        //je crée mon évènement avec les bons paramètres
+        /*
+        $event = new AugmenteVuesEvent($photo, $this->getUser());
+        $this->get('event_dispatcher')
+            ->dispatch(AugmenteVuesEvents::onViewPhoto, $event);
+
+        $photo->setNbVues($event.getPhoto());
+        */
+
+        //on est limité à 1 vue par user et par photo
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            if (!($photo->getUsersView()->contains($this->getUser()))) {
+                $photo->addUsersView($this->getUser());
+                $photo->setNbVues($photo->getNbVues() + 1);
+                $em->persist($photo);
+                $em->flush();
+            }
+        }
 
         //on va récupérer tous les commentaires par ordre décroissant sur le champ createdAt
         $commentairesRecup = $em->getRepository('PersoGalerieBundle:Commentaire')->getCommentairesByPhotoDesc($photoGet);
@@ -64,6 +95,8 @@ class GalerieController extends Controller
 
                     $flash = $this->get('translator')->trans('alert.info.commentOk');
                     $this->get('session')->getFlashBag()->add('success', $flash);
+
+                    return $this->redirect($this->generateUrl('perso_galerie_viewOne', array('slug' => $photo->getSlug())));
                 }
             }
 
@@ -118,7 +151,8 @@ class GalerieController extends Controller
             $flash = $this->get('translator')->trans('alert.info.voteNotOk');
             $this->get('session')->getFlashBag()->add('danger', $flash);
 
-            return $this->redirect($this->generateUrl('perso_galerie_homepage'));
+            //return $this->redirect($this->generateUrl('perso_galerie_homepage'));
+            return $this->redirect($this->generateUrl('perso_galerie_viewOne', array('slug' => $photoGet->getSlug())));
         }
     }
 
@@ -137,10 +171,39 @@ class GalerieController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                // Ici : On traite manuellement le fichier uploadé
-                $photo->setUser($this->getUser());
 
                 $em = $this->getDoctrine()->getManager();
+
+                $photo->setUser($this->getUser());
+
+                //on va traiter les tags maintenant
+                $recupTags = $form->get('myTags')->getData();
+                $tabRecupTags = explode(',',$recupTags);
+
+                //on analyse pour chaque tag s'il existe
+                foreach($tabRecupTags as $eachTag)
+                {
+                    $eachTagPure = trim($eachTag);
+                    //$tagTrouv = $em->getRepository('PersoGalerieBundle:Tag')->findOneByLibTag($eachTagPure);
+                    $tagTrouv = $em->getRepository('PersoGalerieBundle:Tag')->findOneBy(array('libTag' => $eachTagPure));
+                    if(null === $tagTrouv)
+                    {
+                        //on ajoute dans l'entité Tag et on lie à la photo
+                        $newTag = new Tag;
+                        $newTag->setLibTag($eachTagPure);
+                        $em->persist($newTag);
+                        $photo->addTag($newTag);
+                    }
+                    else
+                    {
+                        //on se contente de lier le tag existant à la photo
+                        $photo->addTag($tagTrouv);
+                    }
+                }
+
+                $this->get('session')->getFlashBag()->add('success', 'Votre photo a bien été validée !');
+
+                //$em = $this->getDoctrine()->getManager();
                 $em->persist($photo);
                 $em->flush();
 

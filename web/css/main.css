@@ -8,11 +8,28 @@
 
 }
 
+body {
+    background-image:url("../img/bgFdb.jpg");
+    background-size:   cover;
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
 .empty {
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:20px;
+    height:220px;
+    width:220px;
+    cursor:pointer;
+
     border-radius:5px;
     border:1px solid #f9ecec;
     line-height:200px;
     background-color:#eee;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image:url("../img/camera.png");
 }
 
 .alert {
@@ -25,6 +42,20 @@
 
 .myInputText {
     width:100px;
+}
+
+.nbComm {
+    position:absolute;
+    right:3px;
+    top:3px;
+    font-size:8pt;
+}
+
+.nbVues {
+    position:absolute;
+    left:3px;
+    top:3px;
+    font-size:8pt;
 }
 
 .coverImg {
@@ -77,6 +108,10 @@
     top:26px;
 }
 
+#inputRechTags {
+    width:100%;
+}
+
 #titreSite {
     font-family: fantasy;
     border-bottom-color: rgb(255, 255, 255);
@@ -114,4 +149,23 @@
     text-align: center;
     text-shadow: rgb(204, 204, 204) 0px 1px 0px, rgb(201, 201, 201) 0px 2px 0px, rgb(187, 187, 187) 0px 3px 0px, rgb(185, 185, 185) 0px 4px 0px, rgb(170, 170, 170) 0px 5px 0px, rgba(0, 0, 0, 0.0980392) 0px 6px 1px, rgba(0, 0, 0, 0.0980392) 0px 0px 5px, rgba(0, 0, 0, 0.298039) 0px 1px 3px, rgba(0, 0, 0, 0.2) 0px 3px 5px, rgba(0, 0, 0, 0.247059) 0px 5px 10px, rgba(0, 0, 0, 0.14902) 0px 20px 20px;
     vertical-align: baseline;
+}
+
+.input-group-addon {
+    width:200px;
+    text-align:left;
+}
+
+.infoBg-info {
+    padding:4px;
+    border-radius: 5px;
+    margin-bottom:2px;
+}
+
+.linkWhite {
+    color:white;
+}
+
+.thumbnailPerso {
+    box-shadow: -1px 2px 10px 1px rgba(0, 0, 0, 0.7);
 }

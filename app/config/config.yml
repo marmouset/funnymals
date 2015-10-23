@@ -44,6 +44,10 @@ fos_user:
     db_driver:     orm                        # Le type de BDD à utiliser, nous utilisons l'ORM Doctrine depuis le début
     firewall_name: main                       # Le nom du firewall derrière lequel on utilisera ces utilisateurs
     user_class:    Perso\UserBundle\Entity\User # La classe de l'entité User que nous utilisons
+    change_password:
+        form:
+            type: my_user_change_password
+            name: my_user_change_password
     profile:
         form:
             type: my_user_profile

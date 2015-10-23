@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale|split('_')[0] }}">
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}GALERIE D'IMAGES{% endblock %}</title>
@@ -31,58 +31,61 @@
                 </h1>
             </div>
 
+            {% block mainNavBar %}
+                <nav class="navbar navbar-inverse">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menuCollapse" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="{{ path('perso_galerie_homepage') }}">FaceDeBouk</a>
+                        </div>
 
-            <nav class="navbar navbar-inverse">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menuCollapse" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{{ path('perso_galerie_homepage') }}">FaceDeBouk</a>
-                    </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="menuCollapse">
+                            <ul class="nav navbar-nav">
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="menuCollapse">
-                        <ul class="nav navbar-nav">
-
-                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-
-
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ app.user.username }}<span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ path('fos_user_profile_edit') }}">{{ 'viewProfile'|trans({}, 'FOSUserBundle') }}</a></li>
-                                        <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
-                                    </ul>
-                                </li>
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
 
-                            {% else %}
-
-                                <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
-                                <li class="active"><a href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
-
-                            {% endif %}
-
-                        </ul>
-
-                        <form class="navbar-form navbar-right" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Entrez un ou plusieurs tags">
-                            </div>
-                            <button type="submit" class="btn btn-default">Chercher</button>
-                        </form>
-
-                    </div><!-- /.navbar-collapse -->
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ app.user.username }}<span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ path('fos_user_profile_edit') }}">{{ 'viewProfile'|trans({}, 'FOSUserBundle') }}</a></li>
+                                            <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                                        </ul>
+                                    </li>
 
 
+                                {% else %}
 
-                </div><!-- /.container-fluid -->
-            </nav>
+                                    <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                                    <li class="active"><a href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
+
+                                {% endif %}
+
+                            </ul>
+
+                            <form method="post" action="{{ path('perso_galerie_homepage') }}" class="navbar-form navbar-right" role="search">
+                                <div class="form-group">
+
+                                    <input type="text" class="form-control" id="inputRechTags" name="inputRechTags" placeholder="{{ 'placeholderRechMotsCles'|trans }}">
+                                </div>
+                                <button type="submit" class="btn btn-default">Chercher</button>
+                            </form>
+
+                        </div><!-- /.navbar-collapse -->
+
+
+
+                    </div><!-- /.container-fluid -->
+                </nav>
+            {% endblock mainNavBar %}
+
 
             {# On affiche les messages flash que définissent les contrôleurs du bundle #}
             {% for key, messages in app.session.flashbag.all() %}
@@ -97,11 +100,14 @@
 
         </div>
 
+
+        {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
         {% block javascripts %}
-            {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
             <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
             <script src="{{ asset('js/main.js') }}"></script>
+            <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+
         {% endblock %}
     </body>
 

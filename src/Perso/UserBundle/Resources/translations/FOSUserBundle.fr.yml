@@ -4,3 +4,8 @@ infosProfile: Informations sur votre compte
 firstName: Prénom
 lastName: Nom
 newUser: Création de  votre compte
+ddn: Date de naissance
+monPass: Mot de passe
+chgPassProfile: Changement de votre mot de passe
+chgPassLink: Modifier votre mot de passe
+txtConfirmPass: Confirmez votre mot de passe pour effectuer les modifications

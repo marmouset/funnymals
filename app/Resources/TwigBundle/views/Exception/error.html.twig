@@ -1,0 +1,21 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+    Face de Bouk : page introuvable
+{% endblock %}
+
+{% block body %}
+
+    {% block mainNavBar %}{% endblock %}
+    {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
+
+    {% block titlePage %}
+        <h2>La page que vous demandez est introuvable.</h2>
+    {% endblock %}
+    <hr>
+
+    Tous nos bouks sont partis à la recherche de votre page, en vain.<br />
+    <a href="{{ path('perso_galerie_homepage') }}">Ils vous raccompagneront sur la page d'accueil. Cliquez ici.</a>
+    <br /><br /><img src="{{ asset('img/404.png') }}" />
+
+{% endblock %}

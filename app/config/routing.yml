@@ -4,3 +4,10 @@ perso_galerie:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+_bazinga_jstranslation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+
+perso_user:
+    resource: "@PersoUserBundle/Resources/config/routing.yml"
+    prefix:   /

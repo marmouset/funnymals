@@ -1,0 +1,48 @@
+{#Perso\GalerieBundle\Resources\views\Galerie\affichPhotosInc.html.twig #}
+
+{% for photo in photos %}
+    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+        <div class="thumbnail thumbnailPerso col-xs-11 col-xs-offset-1">
+
+            <div onclick="window.location='{{ path('perso_galerie_viewOne',{'slug':photo.slug}) }}'" class="thumbnail coverImg" style="background-image:url({{ asset('img/uploads/') }}{{ photo.url }})"></div>
+            <div class="nbVues label label-default">{{ 'photo.nbVues'|transchoice(photo.nbVues) }}</div>
+            <div class="nbComm label label-info"><a href="{{ path('perso_galerie_viewOne',{'slug':photo.slug}) }}#firstComm" class="linkWhite">{{ 'photo.comments'|transchoice(photo.commentaires|length) }}</a></div>
+            <div class="caption">
+                <h4>
+                    {% if '' == photo.legende %}
+                        -
+                    {% else %}
+                        {% if photo.legende|length > 23 %}
+                            {{ photo.legende | truncate(23, false, '...') }}
+                        {% else %}
+                            {{ photo.legende }}
+                        {% endif %}
+                    {% endif %}
+                </h4>
+                <p>
+                    {% if '' == photo.descriptif %}
+                        -
+                    {% else %}
+                        {% if photo.descriptif|length > 23 %}
+                            {{ photo.descriptif | truncate(23, false, '...') }}
+                        {% else %}
+                            {{ photo.descriptif }}
+                        {% endif %}
+                    {% endif %}
+                </p>
+                <p>
+                    <a href="{{ path('perso_user_view', {'username': photo.user.username}) }}">{{ photo.user.username }}</a>
+                </p>
+                <p>
+                    <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'up'}) }}" class="btn btn-success glyphicon glyphicon-thumbs-up" role="button">
+                        <span class="badge">{{ photo.nbUp }}</span>
+                    </a>
+                    <a href="{{ path('perso_galerie_vote', {'slug': photo.slug, 'typVote': 'down'}) }}" class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button">
+                        <span class="badge">{{ photo.nbDown }}</span>
+                    </a>
+
+                </p>
+            </div>
+        </div>
+    </div>
+{% endfor %}

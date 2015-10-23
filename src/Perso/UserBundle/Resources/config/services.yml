@@ -3,7 +3,13 @@ services:
 #        class: Perso\UserBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
       perso_user.profile.form.type:
-              class: Perso\UserBundle\Form\ProfileFormType
-              arguments: [%fos_user.model.user.class%]
-              tags:
-                  - { name: form.type, alias: my_user_profile }
+                    class: Perso\UserBundle\Form\ProfileFormType
+                    arguments: [%fos_user.model.user.class%]
+                    tags:
+                        - { name: form.type, alias: my_user_profile }
+
+      perso_user.changepassword.form.type:
+                    class: Perso\UserBundle\Form\ChangePasswordFormType
+                    arguments: [%fos_user.model.user.class%]
+                    tags:
+                        - { name: form.type, alias: my_user_change_password }

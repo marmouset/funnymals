@@ -1,6 +1,6 @@
 perso_galerie_homepage:
-    path:     /{page}
-    defaults: { _controller: PersoGalerieBundle:Galerie:index, page: 1 }
+    path:     /{page}/{tags}
+    defaults: { _controller: PersoGalerieBundle:Galerie:index, page: 1, tags: null }
     requirements:
         page:  \d+
 

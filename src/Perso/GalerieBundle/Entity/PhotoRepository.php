@@ -2,6 +2,8 @@
 
 namespace Perso\GalerieBundle\Entity;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Perso\GalerieBundle\PersoGalerieBundle;
+use Perso\UserBundle\Entity;
 
 /**
  * PhotoRepository
@@ -11,6 +13,22 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class PhotoRepository extends \Doctrine\ORM\EntityRepository
 {
+    //$id = id user
+    public function getPhotosByUser($nombreParPage, $page, $id)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $query = $qb->leftJoin('p.user', 'u')
+            ->where('u.id = :id')
+            ->setParameter('id',$id)
+            ->addSelect('u');
+
+        $query = $qb->getQuery();
+        $query->setFirstResult(($page-1) * $nombreParPage)
+            ->setMaxResults($nombreParPage);
+
+        return new Paginator($query);
+    }
+
     public function getAllPhotosDesc($nombreParPage, $page)
     {
         if ($page < 1) {
@@ -25,6 +43,40 @@ class PhotoRepository extends \Doctrine\ORM\EntityRepository
             ->setMaxResults($nombreParPage);
 
         return new Paginator($query);
+    }
+
+    public function getAllPhotosTagDesc($nombreParPage, $page, $tags)
+    {
+        if ($page < 1) {
+            throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur : "'.$page.'").');
+        }
+
+
+        //on va éplucher chaque tag de la recherche
+        $myTags = explode(',',$tags);
+
+        $qb = $this ->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC');
+
+        $qb->leftJoin('p.tags', 't')
+            ->addSelect('t');
+
+        $or = $qb->expr()->orx();
+        $p=0;
+        foreach($myTags as $key => $oneTag){
+            $or->add($qb->expr()->eq("t.libTag", ":param".$p ));
+            $qb->setParameter("param".$p, $oneTag);
+            $p++;
+        }
+        $qb->where($or);
+
+        $query = $qb->getQuery();
+        $query->setFirstResult(($page-1) * $nombreParPage)
+            ->setMaxResults($nombreParPage);
+
+        return new Paginator($query);
+
+
     }
 
 }

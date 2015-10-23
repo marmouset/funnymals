@@ -1,3 +1,5 @@
-perso_user_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: PersoUserBundle:Default:index }
+perso_user_view:
+    path:     /user/{username}/{page}/
+    defaults: { _controller: PersoUserBundle:Profile:showDetails, page: 1 }
+    requirements:
+            page:  \d+

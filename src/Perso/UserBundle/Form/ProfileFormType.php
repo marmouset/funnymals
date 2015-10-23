@@ -2,11 +2,7 @@
 
 namespace Perso\UserBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use FOS\UserBundle\Form\Type\ProfileFormType as BaseType;
 
 
@@ -19,7 +15,10 @@ class ProfileFormType extends BaseType
         $builder
             ->add('first_name',null, array('label' => 'firstName', 'translation_domain' => 'FOSUserBundle'))
             ->add('last_name',null, array('label' => 'lastName', 'translation_domain' => 'FOSUserBundle'))
+            ->add('ddn',null, array('label' => 'ddn', 'translation_domain' => 'FOSUserBundle'))
+            ->add('current_password',null, array('label' => 'Mot de passe', 'translation_domain' => 'FOSUserBundle'))
         ;
+        $builder->remove('username');
     }
 
     public function getName()

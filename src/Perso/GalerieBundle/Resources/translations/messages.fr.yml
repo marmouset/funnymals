@@ -4,3 +4,10 @@ alert:
         voteOk: Votre vote a bien été pris en compte
         voteNotOk: Vous avez déjà enregistré un vote pour cette photo
         commentOk: Votre commentaire a bien été ajouté !
+placeholderMotsCles: Séparez vos mots-clés avec la touche Entrée
+placeholderRechMotsCles: Mots-clés
+title:
+    listPhotos: Liste des photos
+photo:
+      comments: "%count% commentaire|]1,+Inf]%count% commentaires"
+      nbVues: "Vu %count% fois"

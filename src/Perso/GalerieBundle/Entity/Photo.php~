@@ -41,7 +41,7 @@ class Photo
 
     /**
      * @var string
-     * @Assert\Length(min = "30",max = "200")
+     * @Assert\Length(min = "20",max = "200")
      * @ORM\Column(name="descriptif", type="string", length=255)
      */
     private $descriptif;
@@ -73,20 +73,41 @@ class Photo
     protected $file;
 
     /**
+     * @var integer
+     * @ORM\Column(name="nbVues", type="integer")
+     */
+    protected $nbVues;
+
+    /**
      * @Gedmo\Slug(fields={"legende"})
      * @ORM\Column(length=128, unique=true)
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Perso\GalerieBundle\Entity\Commentaire", mappedBy="photo")
+     */
+    private $commentaires;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Perso\GalerieBundle\Entity\Tag", cascade={"persist"})
+     *
+     */
+    private $tags;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Perso\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $usersView;
 
     private $tempFilename;
 
     public function __construct()
     {
         //$this->get('security.context')->getToken()->getUser();
-
         $this->nbUp = 0;
         $this->nbDown = 0;
+        $this->nbVues = 0;
     }
 
     public function getFile()
@@ -151,10 +172,6 @@ class Photo
         return $this->url;
     }
 
-    /**
-     * @ORM\OneToMany(targetEntity="Perso\GalerieBundle\Entity\Commentaire", mappedBy="photo")
-     */
-    private $commentaires;
 
 
     // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre
@@ -383,4 +400,96 @@ class Photo
         return $this->nbDown;
     }
 
+
+    /**
+     * Add commentaire
+     *
+     * @param \Perso\GalerieBundle\Entity\Commentaire $commentaire
+     *
+     * @return Photo
+     */
+    public function addCommentaire(\Perso\GalerieBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires[] = $commentaire;
+        $commentaire->setPhoto($this); // On ajoute ceci
+        return $this;
+    }
+
+    /**
+     * Remove commentaire
+     *
+     * @param \Perso\GalerieBundle\Entity\Commentaire $commentaire
+     */
+    public function removeCommentaire(\Perso\GalerieBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires->removeElement($commentaire);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \Perso\GalerieBundle\Entity\Tag $tag
+     *
+     * @return Photo
+     */
+    public function addTag(\Perso\GalerieBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \Perso\GalerieBundle\Entity\Tag $tag
+     */
+    public function removeTag(\Perso\GalerieBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Set nbVues
+     *
+     * @param integer $nbVues
+     *
+     * @return Photo
+     */
+    public function setNbVues($nbVues)
+    {
+        $this->nbVues = $nbVues;
+
+        return $this;
+    }
+
+    /**
+     * Get nbVues
+     *
+     * @return integer
+     */
+    public function getNbVues()
+    {
+        return $this->nbVues;
+    }
 }

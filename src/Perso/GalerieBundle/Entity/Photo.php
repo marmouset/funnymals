@@ -41,7 +41,7 @@ class Photo
 
     /**
      * @var string
-     * @Assert\Length(min = "30",max = "200")
+     * @Assert\Length(min = "20",max = "200")
      * @ORM\Column(name="descriptif", type="string", length=255)
      */
     private $descriptif;
@@ -73,6 +73,12 @@ class Photo
     protected $file;
 
     /**
+     * @var integer
+     * @ORM\Column(name="nbVues", type="integer")
+     */
+    protected $nbVues;
+
+    /**
      * @Gedmo\Slug(fields={"legende"})
      * @ORM\Column(length=128, unique=true)
      */
@@ -83,15 +89,25 @@ class Photo
      */
     private $commentaires;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Perso\GalerieBundle\Entity\Tag", cascade={"persist"})
+     *
+     */
+    private $tags;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Perso\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $usersView;
 
     private $tempFilename;
 
     public function __construct()
     {
         //$this->get('security.context')->getToken()->getUser();
-
         $this->nbUp = 0;
         $this->nbDown = 0;
+        $this->nbVues = 0;
     }
 
     public function getFile()
@@ -417,5 +433,97 @@ class Photo
     public function getCommentaires()
     {
         return $this->commentaires;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \Perso\GalerieBundle\Entity\Tag $tag
+     *
+     * @return Photo
+     */
+    public function addTag(\Perso\GalerieBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \Perso\GalerieBundle\Entity\Tag $tag
+     */
+    public function removeTag(\Perso\GalerieBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Set nbVues
+     *
+     * @param integer $nbVues
+     *
+     * @return Photo
+     */
+    public function setNbVues($nbVues)
+    {
+        $this->nbVues = $nbVues;
+
+        return $this;
+    }
+
+    /**
+     * Get nbVues
+     *
+     * @return integer
+     */
+    public function getNbVues()
+    {
+        return $this->nbVues;
+    }
+
+    /**
+     * Add usersView
+     *
+     * @param \Perso\UserBundle\Entity\User $usersView
+     *
+     * @return Photo
+     */
+    public function addUsersView(\Perso\UserBundle\Entity\User $usersView)
+    {
+        $this->usersView[] = $usersView;
+
+        return $this;
+    }
+
+    /**
+     * Remove usersView
+     *
+     * @param \Perso\UserBundle\Entity\User $usersView
+     */
+    public function removeUsersView(\Perso\UserBundle\Entity\User $usersView)
+    {
+        $this->usersView->removeElement($usersView);
+    }
+
+    /**
+     * Get usersView
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsersView()
+    {
+        return $this->usersView;
     }
 }

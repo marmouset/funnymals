@@ -4,7 +4,7 @@ namespace Perso\GalerieBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PhotoType extends AbstractType
 {
@@ -19,20 +19,33 @@ class PhotoType extends AbstractType
             ->add('legende',   'text', array('label_attr' => array('class' => 'myLabel')))
             ->add('descriptif',   'textarea', array('label_attr' => array('class' => 'myLabel')))
             ->add('file',       'file', array('label_attr' => array('class' => 'myLabel')))
+            ->add('myTags', 'hidden', array(
+                'mapped' => false,
+            ))
 
+
+            /*
+            ->add('tags',   'collection', array('type'         => new TagType(),
+                'allow_add'    => true,
+                'allow_delete' => true))
+            */
+
+            //, array('placeholder' => 'Ajoutez des tags à votre photo, séparés par des virgules',)
             //->add('url',       'file', array('label_attr' => array('class' => 'myLabel'),'attr' => array('class' => 'myInputText')))
         ;
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'Perso\GalerieBundle\Entity\Photo'
         ));
     }
+
+
 
     /**
      * @return string

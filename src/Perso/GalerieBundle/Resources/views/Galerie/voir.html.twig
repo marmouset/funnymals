@@ -19,7 +19,7 @@
 
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Proposée par {{ photo.user.username }}</div>
+                <div class="panel-heading">Proposée par <a href="{{ path('perso_user_view', {'username': photo.user.username}) }}">{{ photo.user.username }}</a></div>
                 <div class="panel-body">
 
                     {#<div class="coverImgBig" style="background-image:url({{ asset('img/uploads/') }}{{ photo.url }})"></div>#}
@@ -37,6 +37,14 @@
                         </a>
                     </p>
                 </div>
+
+                {% if (photo.tags|length) > 0 %}
+                    <h6>Mots-clés :
+                        {% for tag in photo.tags %}
+                                <a href="{{ path('perso_galerie_homepage', {'page': 1, 'tags': tag.libTag}) }}" type="button" class="btn btn-default  btn-xs">#{{ tag.libTag }}</a>
+                        {% endfor %}
+                    </h6>
+                {% endif %}
             </div>
 
             {% if form is defined %}
@@ -49,9 +57,14 @@
             {% endif %}
 
             {% for commentaire in commentaires %}
+                {% if loop.first %}
+                    <p class="bg-info text-left" id="firstComm">
+                {% else %}
+                    <p class="bg-info text-left">
+                {% endif %}
                 <p class="bg-info text-left">
                     <span class="glyphicon glyphicon-chevron-right"></span>
-                    Le {{ commentaire.createdAt|date("d/m/Y à H:d:s") }}, <strong>{{ commentaire.user.username }} a dit : </strong><br />
+                    Le {{ commentaire.createdAt|date("d/m/Y à H:i:s") }}, <strong><a href="{{ path('perso_user_view', {'username': commentaire.user.username}) }}">{{ commentaire.user.username }}</a> a dit : </strong><br />
                     {{ commentaire.texte }}
                 </p>
             {% endfor %}

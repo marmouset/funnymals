@@ -27,6 +27,12 @@ class User extends BaseUser
     private $last_name;
 
     /**
+     * @var string $ddn
+     * @ORM\Column(name="ddn", type="string", length=255, nullable=true)
+     */
+    private $ddn;
+
+    /**
      * @var string $first_name
      *
      * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
@@ -86,5 +92,29 @@ class User extends BaseUser
     public function getFirstName()
     {
         return $this->first_name;
+    }
+
+    /**
+     * Set ddn
+     *
+     * @param string $ddn
+     *
+     * @return User
+     */
+    public function setDdn($ddn)
+    {
+        $this->ddn = $ddn;
+
+        return $this;
+    }
+
+    /**
+     * Get ddn
+     *
+     * @return string
+     */
+    public function getDdn()
+    {
+        return $this->ddn;
     }
 }
