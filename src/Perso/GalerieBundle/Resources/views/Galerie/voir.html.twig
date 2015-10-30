@@ -7,6 +7,7 @@
     <style>
         [class*="col"] { margin-bottom: 15px; }
     </style>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/emojione/1.5.1/assets/css/emojione.min.css"/>
 {% endblock %}
 
 {% block body %}
@@ -19,7 +20,10 @@
 
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Proposée par <a href="{{ path('perso_user_view', {'username': photo.user.username}) }}">{{ photo.user.username }}</a></div>
+                <div class="panel-heading">
+                    <div class="nbVuesOnePhoto label label-default">{{ 'photo.nbVues'|transchoice(photo.nbVues) }}</div>
+                    Proposée par <a href="{{ path('perso_user_view', {'username': photo.user.username}) }}">{{ photo.user.username }}</a>
+                </div>
                 <div class="panel-body">
 
                     {#<div class="coverImgBig" style="background-image:url({{ asset('img/uploads/') }}{{ photo.url }})"></div>#}
@@ -56,6 +60,25 @@
                 </div>
             {% endif %}
 
+
+            {% for commentaire in commentaires %}
+                {% if loop.first %}
+                   <table class="table tableCommentaires text-left"  id="firstComm">
+                {% endif %}
+
+                <tr><td>
+
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    Le {{ commentaire.createdAt|date("d/m/Y à H:i:s") }}, <strong><a href="{{ path('perso_user_view', {'username': commentaire.user.username}) }}">{{ commentaire.user.username }}</a> a dit : </strong><br />
+                    {{ commentaire.texte }}
+
+                </td></tr>
+
+                {% if loop.last %}
+                    </table>
+                {% endif %}
+            {% endfor %}
+            {#
             {% for commentaire in commentaires %}
                 {% if loop.first %}
                     <p class="bg-info text-left" id="firstComm">
@@ -68,10 +91,16 @@
                     {{ commentaire.texte }}
                 </p>
             {% endfor %}
-
+            #}
         </div>
 
     </div>
     <a href="{{ path('perso_galerie_homepage') }}">Revenir à la liste</a>
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdn.jsdelivr.net/emojione/1.5.1/lib/js/emojione.min.js"></script>
+    <script src="{{ asset('jquery-textcomplete-master/dist/jquery.textcomplete.min.js') }}"></script>
+    <script src="{{ asset('js/emojicon.js') }}"></script>
+{% endblock %}

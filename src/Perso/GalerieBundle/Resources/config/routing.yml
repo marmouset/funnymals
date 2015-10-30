@@ -18,3 +18,20 @@ perso_galerie_vote:
     defaults:  { _controller: PersoGalerieBundle:Galerie:vote }
     requirements:
         typVote:  up|down
+
+perso_galerie_voteDuel:
+    path:     /voteDuel/{idDuel}/{slug}
+    defaults:  { _controller: PersoGalerieBundle:Galerie:voteDuel }
+
+perso_galerie_duels:
+    path:       /duels/{page}
+    defaults: { _controller: PersoGalerieBundle:Galerie:voirDuels, page: 1 }
+
+perso_galerie_newduel:
+    path:       /newduel
+    defaults: { _controller: PersoGalerieBundle:Galerie:tmpAddDuel }
+
+
+#perso_galerie_duel:
+#    path:       /duel/{id}
+#    defaults: { _controller: PersoGalerieBundle:Galerie:voirDuel }

@@ -1,0 +1,271 @@
+<?php
+
+namespace Perso\GalerieBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Duel
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Perso\GalerieBundle\Entity\DuelRepository")
+ */
+class Duel
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Perso\GalerieBundle\Entity\Photo", cascade={"persist"})
+     */
+    private $photoA;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Perso\GalerieBundle\Entity\Photo", cascade={"persist"})
+     */
+    private $photoB;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="voteA", type="integer")
+     */
+    private $voteA;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="voteB", type="integer")
+     */
+    private $voteB;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateDeb", type="datetime")
+     */
+    private $dateDeb;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateFin", type="datetime")
+     */
+    private $dateFin;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Perso\GalerieBundle\Entity\CommentaireDuel", mappedBy="duel")
+     */
+    private $commentairesDuel;
+
+
+    public function __construct()
+    {
+        $this->dateDeb = new \Datetime();
+
+        //$this->dateFin = new \Datetime();
+        $dateBase = new \Datetime();
+        $duration = 3600 * 24 * 3;
+        $endtimestamp = $dateBase->getTimestamp() + $duration;
+        $dateBase->setTimestamp($endtimestamp);
+        $this->dateFin = $dateBase;
+
+        $this->voteA = 0;
+        $this->voteB = 0;
+    }
+
+
+    /**
+     * Set voteA
+     *
+     * @param integer $voteA
+     *
+     * @return Duel
+     */
+    public function setVoteA($voteA)
+    {
+        $this->voteA = $voteA;
+
+        return $this;
+    }
+
+    /**
+     * Get voteA
+     *
+     * @return integer
+     */
+    public function getVoteA()
+    {
+        return $this->voteA;
+    }
+
+    /**
+     * Set voteB
+     *
+     * @param integer $voteB
+     *
+     * @return Duel
+     */
+    public function setVoteB($voteB)
+    {
+        $this->voteB = $voteB;
+
+        return $this;
+    }
+
+    /**
+     * Get voteB
+     *
+     * @return integer
+     */
+    public function getVoteB()
+    {
+        return $this->voteB;
+    }
+
+    /**
+     * Set dateFin
+     *
+     * @param \DateTime $dateFin
+     *
+     * @return Duel
+     */
+    public function setDateFin($dateFin)
+    {
+        $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    /**
+     * Get dateFin
+     *
+     * @return \DateTime
+     */
+    public function getDateFin()
+    {
+        return $this->dateFin;
+    }
+
+    /**
+     * Set photoA
+     *
+     * @param \Perso\GalerieBundle\Entity\Photo $photoA
+     *
+     * @return Duel
+     */
+    public function setPhotoA(\Perso\GalerieBundle\Entity\Photo $photoA)
+    {
+        $this->photoA = $photoA;
+
+        return $this;
+    }
+
+    /**
+     * Get photoA
+     *
+     * @return \Perso\GalerieBundle\Entity\Photo
+     */
+    public function getPhotoA()
+    {
+        return $this->photoA;
+    }
+
+    /**
+     * Set photoB
+     *
+     * @param \Perso\GalerieBundle\Entity\Photo $photoB
+     *
+     * @return Duel
+     */
+    public function setPhotoB(\Perso\GalerieBundle\Entity\Photo $photoB)
+    {
+        $this->photoB = $photoB;
+
+        return $this;
+    }
+
+    /**
+     * Get photoB
+     *
+     * @return \Perso\GalerieBundle\Entity\Photo
+     */
+    public function getPhotoB()
+    {
+        return $this->photoB;
+    }
+
+    /**
+     * Set dateDeb
+     *
+     * @param \DateTime $dateDeb
+     *
+     * @return Duel
+     */
+    public function setDateDeb($dateDeb)
+    {
+        $this->dateDeb = $dateDeb;
+
+        return $this;
+    }
+
+    /**
+     * Get dateDeb
+     *
+     * @return \DateTime
+     */
+    public function getDateDeb()
+    {
+        return $this->dateDeb;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add commentairesDuel
+     *
+     * @param \Perso\GalerieBundle\Entity\CommentaireDuel $commentairesDuel
+     *
+     * @return Duel
+     */
+    public function addCommentairesDuel(\Perso\GalerieBundle\Entity\CommentaireDuel $commentairesDuel)
+    {
+        $this->commentairesDuel[] = $commentairesDuel;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentairesDuel
+     *
+     * @param \Perso\GalerieBundle\Entity\CommentaireDuel $commentairesDuel
+     */
+    public function removeCommentairesDuel(\Perso\GalerieBundle\Entity\CommentaireDuel $commentairesDuel)
+    {
+        $this->commentairesDuel->removeElement($commentairesDuel);
+    }
+
+    /**
+     * Get commentairesDuel
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentairesDuel()
+    {
+        return $this->commentairesDuel;
+    }
+}

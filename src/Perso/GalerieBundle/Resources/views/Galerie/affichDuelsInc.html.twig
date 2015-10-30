@@ -1,0 +1,155 @@
+{#Perso\GalerieBundle\Resources\views\Galerie\affichPhotosInc.html.twig #}
+
+
+{% for duel in duels %}
+    <div class="col-xs-12 separateTimers"></div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12" id="includeCounter{{ duel.id }}">
+                {% if tabFiniDuree[duel.id] %}
+                    {% for letter in 'timesup'|trans|split('') %}
+                        <img src="{{ asset('img/letters/'~ letter|lower ~'.jpg') }}" />
+                    {% endfor %}
+                    <div class="desc"><br /></div>
+                {% else %}
+                    <div class="descTop">{{ 'timeremaining'|trans }}</div>
+                    <div class="counter" id="counter{{ duel.id }}"></div>
+                    <div class="desc">
+                        <div>{{ 'heures'|trans }}</div>
+                        <div id="descMinutes">{{ 'minutes'|trans }}</div>
+                        <div>{{ 'secondes'|trans }}</div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-5">
+                <div class="row">
+                    <div class="thumbnail thumbnailPerso col-xs-11 col-xs-offset-1">
+
+                        <div onclick="window.location='{{ path('perso_galerie_viewOne',{'slug':duel.photoA.slug}) }}'" class="thumbnail coverImg" style="background-image:url({{ asset('img/uploads/') }}{{ duel.photoA.url }})"></div>
+                        <div class="nbVues label label-default">{{ 'photo.nbVues'|transchoice(duel.photoA.nbVues) }}</div>
+                        <div class="nbComm label label-info"><a href="{{ path('perso_galerie_viewOne',{'slug':duel.photoA.slug}) }}#firstComm" class="linkWhite">{{ 'photo.comments'|transchoice(duel.photoA.commentaires|length) }}</a></div>
+                        <div class="caption">
+                            <h4>
+                                {% if '' == duel.photoA.legende %}
+                                    -
+                                {% else %}
+                                    {% if duel.photoA.legende|length > 23 %}
+                                        {{ duel.photoA.legende | truncate(23, false, '...') }}
+                                    {% else %}
+                                        {{ duel.photoA.legende }}
+                                    {% endif %}
+                                {% endif %}
+                            </h4>
+                            <p>
+                                {% if '' == duel.photoA.descriptif %}
+                                    -
+                                {% else %}
+                                    {% if duel.photoA.descriptif|length > 23 %}
+                                        {{ duel.photoA.descriptif | truncate(23, false, '...') }}
+                                    {% else %}
+                                        {{ duel.photoA.descriptif }}
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                            <p>
+                                <a href="{{ path('perso_user_view', {'username': duel.photoA.user.username}) }}">{{ duel.photoA.user.username }}</a>
+                            </p>
+                            <p>
+                                <a href="{{ path('perso_galerie_voteDuel', {'idDuel':duel.id,'slug': duel.photoA.slug}) }}" class="btn btn-primary glyphicon glyphicon-thumbs-up" role="button">
+                                    <span class="txtBtnVote">{{ 'votez'|trans }} !</span>
+                                    <span class="badge">{{ duel.voteA }}</span>
+                                </a>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-2 divVs">
+            </div>
+
+            <div class="col-xs-5">
+                <div class="row">
+                    <div class="thumbnail thumbnailPerso col-xs-11">
+
+                        <div onclick="window.location='{{ path('perso_galerie_viewOne',{'slug':duel.photoB.slug}) }}'" class="thumbnail coverImg" style="background-image:url({{ asset('img/uploads/') }}{{ duel.photoB.url }})"></div>
+                        <div class="nbVues label label-default">{{ 'photo.nbVues'|transchoice(duel.photoB.nbVues) }}</div>
+                        <div class="nbComm label label-info"><a href="{{ path('perso_galerie_viewOne',{'slug':duel.photoB.slug}) }}#firstComm" class="linkWhite">{{ 'photo.comments'|transchoice(duel.photoB.commentaires|length) }}</a></div>
+                        <div class="caption">
+                            <h4>
+                                {% if '' == duel.photoB.legende %}
+                                    -
+                                {% else %}
+                                    {% if duel.photoB.legende|length > 23 %}
+                                        {{ duel.photoB.legende | truncate(23, false, '...') }}
+                                    {% else %}
+                                        {{ duel.photoB.legende }}
+                                    {% endif %}
+                                {% endif %}
+                            </h4>
+                            <p>
+                                {% if '' == duel.photoB.descriptif %}
+                                    -
+                                {% else %}
+                                    {% if duel.photoB.descriptif|length > 23 %}
+                                        {{ duel.photoB.descriptif | truncate(23, false, '...') }}
+                                    {% else %}
+                                        {{ duel.photoB.descriptif }}
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                            <p>
+                                <a href="{{ path('perso_user_view', {'username': duel.photoB.user.username}) }}">{{ duel.photoB.user.username }}</a>
+                            </p>
+                            <p>
+                                <a href="{{ path('perso_galerie_voteDuel', {'idDuel':duel.id,'slug': duel.photoB.slug}) }}" class="btn btn-primary glyphicon glyphicon-thumbs-up" role="button">
+                                    <span class="txtBtnVote">{{ 'votez'|trans }} !</span>
+                                    <span class="badge">{{ duel.voteB }}</span>
+                                </a>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                {% if not tabFiniDuree[duel.id] %}
+                    {% if formulaires[duel.id] is defined %}
+                            <div class="well">
+                                <form method="post">
+                                    {{ form_widget(formulaires[duel.id]) }}
+                                    <input type="submit" class="btn btn-primary" />
+                                </form>
+                            </div>
+                    {% endif %}
+                {% endif %}
+
+                {#
+                {% for commentaire in commentaires %}
+                    {% if loop.first %}
+                        <table class="table tableCommentaires text-left"  id="firstComm">
+                    {% endif %}
+
+                    <tr><td>
+
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            Le {{ commentaire.createdAt|date("d/m/Y à H:i:s") }}, <strong><a href="{{ path('perso_user_view', {'username': commentaire.user.username}) }}">{{ commentaire.user.username }}</a> a dit : </strong><br />
+                            {{ commentaire.texte }}
+
+                        </td></tr>
+
+                    {% if loop.last %}
+                        </table>
+                    {% endif %}
+                {% endfor %}
+                #}
+            </div>
+        </div>
+    </div>
+{% endfor %}

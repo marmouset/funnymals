@@ -10,7 +10,7 @@ alert:
 placeholderMotsCles: Séparez vos mots-clés avec la touche Entrée
 placeholderRechMotsCles: Mots-clés
 title:
-    listPhotos: Liste des photos
+    listPhotos: All the pics
     listDuels: Liste des duels
 photo:
       comments: "%count% commentaire|]1,+Inf]%count% commentaires"

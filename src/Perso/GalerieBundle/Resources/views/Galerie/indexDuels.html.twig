@@ -1,0 +1,144 @@
+{# src/Perso/GalerieBundle/Resources/views/Galerie/index.html.twig #}
+
+{% extends "PersoGalerieBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /*[class*="col"] { border:1px solid black; }*/
+
+          br { clear: both; }
+          .cntSeparator {
+            font-size: 54px;
+            margin: 10px 7px;
+            color: #000;
+          }
+          .desc {
+              width:380px;
+              margin-left:auto;
+              margin-right:auto;
+
+          }
+        .desc div {
+            float: left;
+            width: 120px;
+            height:40px;
+            font-style:italic;
+        }
+        #descMinutes {
+            width:136px;
+        }
+        .descTop {
+            width:380px;
+            margin-left:auto;
+            margin-right:auto;
+            font-weight:bold;
+        }
+
+
+
+
+        .counter {
+                width:380px;
+                margin-left:auto;
+                margin-right:auto;
+            }
+    </style>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/emojione/1.5.1/assets/css/emojione.min.css"/>
+
+{% endblock %}
+
+{% block body %}
+
+    {% block titlePage %}
+        <div class="h3">{{ 'title.listDuels'|trans }}</div>
+    {% endblock %}
+
+
+
+    {% if nombrePage > 1 %}
+        <nav>
+            <ul class="pagination">
+                {% for p in range(1, nombrePage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('perso_galerie_homepage', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    {%  endif %}
+
+    <div class="row">
+
+
+
+        {% include "PersoGalerieBundle:Galerie:affichDuelsInc.html.twig" %}
+
+    </div>
+
+    {% if nombrePage > 1 %}
+        <nav>
+            <ul class="pagination">
+                {% for p in range(1, nombrePage) %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('perso_galerie_homepage', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    {%  endif %}
+
+
+{% endblock %}
+
+{# startTime: '{{ tabDureesRestantes[duel.id] }}', #}
+
+{% block javascripts %}
+    {{ parent() }}
+
+
+    <script src="//cdn.jsdelivr.net/emojione/1.5.1/lib/js/emojione.min.js"></script>
+    <script src="{{ asset('jquery-textcomplete-master/dist/jquery.textcomplete.min.js') }}"></script>
+    <script src="{{ asset('js/emojicon.js') }}"></script>
+
+
+    <script src="{{ asset('js/jquery.countdown.js') }}"></script>
+    <script>
+        function showFinish(monduel)
+        {
+            var contentHtml = '';
+
+            {% for letter in 'timesup'|trans|split('') %}
+                contentHtml += "<img src=\"{{ asset('img/letters/'~ letter|lower ~'.jpg') }}\" />";
+            {% endfor %}
+            contentHtml += "<div class='desc'><br /></div>";
+
+            $("#includeCounter"+monduel).html(contentHtml);
+            {#
+            includeCounter
+
+            {% if tabFiniDuree[duel.id] %}
+                {% for letter in 'timesup'|trans|split('') %}
+                    <img src="{{ asset('img/letters/'~ letter|lower ~'.jpg') }}" />
+                {% endfor %}
+                <div class="desc"><br /></div>
+            #}
+        }
+
+
+        $(function() {
+            {% for duel in duels %}
+                {# if tabDureesRestantes[duel.id] != '00:00:00' #}
+                    $('#counter{{ duel.id }}').countdown({
+                        image: '{{ asset('img/digits.png') }}',
+                        startTime: '{{ tabDureesRestantes[duel.id] }}',
+                        timerEnd: function(){ showFinish({{ duel.id }}); },
+                        digitWidth: 53,
+                        digitHeight: 77
+                    });
+            {% endfor %}
+        });
+
+
+    </script>
+{% endblock %}

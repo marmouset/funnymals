@@ -1,6 +1,7 @@
 perso_galerie:
     resource: "@PersoGalerieBundle/Resources/config/routing.yml"
     prefix:   /
+    #prefix:   /{_locale}/
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
