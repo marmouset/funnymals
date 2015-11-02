@@ -27,4 +27,20 @@ class DuelRepository extends \Doctrine\ORM\EntityRepository
 
         return new Paginator($query);
     }
+
+    public function getAllDuelsAsc($nombreParPage, $page)
+    {
+        if ($page < 1) {
+            throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur : "'.$page.'").');
+        }
+
+        $qb = $this ->createQueryBuilder('d')
+            ->orderBy('d.dateFin', 'ASC');
+
+        $query = $qb->getQuery();
+        $query->setFirstResult(($page-1) * $nombreParPage)
+            ->setMaxResults($nombreParPage);
+
+        return new Paginator($query);
+    }
 }

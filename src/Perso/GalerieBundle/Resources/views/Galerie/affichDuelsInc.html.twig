@@ -119,7 +119,7 @@
         </div>
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                {% if not tabFiniDuree[duel.id] %}
+                {# if not tabFiniDuree[duel.id] #}
                     {% if formulaires[duel.id] is defined %}
                             <div class="well">
                                 <form method="post">
@@ -128,7 +128,7 @@
                                 </form>
                             </div>
                     {% endif %}
-                {% endif %}
+                {# endif #}
 
                 {#
                 {% for commentaire in commentaires %}

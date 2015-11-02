@@ -8,6 +8,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CommentaireDuelType extends AbstractType
 {
+    protected $name;
+
+    public function __construct($name) // = 'testtype'
+    {
+        $this->name = 'perso_galeriebundle_' . $name;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -16,11 +23,15 @@ class CommentaireDuelType extends AbstractType
     {
         $builder
             ->add('texte',      'textarea', array('label' => 'Un commentaire ?'))
+            ->add('name', 'hidden', array(
+            'mapped' => false,
+            ))
             //->add('createdAt',  'date')
         ;
 
         //$builder->remove('user') ;
     }
+
 
     /**
      * @param OptionsResolver $resolver
@@ -28,7 +39,8 @@ class CommentaireDuelType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Perso\GalerieBundle\Entity\CommentaireDuel'
+            'data_class' => 'Perso\GalerieBundle\Entity\CommentaireDuel',
+            'name' => null
         ));
     }
 
@@ -37,6 +49,7 @@ class CommentaireDuelType extends AbstractType
      */
     public function getName()
     {
-        return 'perso_galeriebundle_commentaireduel';
+        //return 'perso_galeriebundle_commentaireduel';
+        return $this->name;
     }
 }

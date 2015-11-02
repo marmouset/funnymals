@@ -13,6 +13,7 @@ use Perso\GalerieBundle\Entity\CommentaireDuel;
 use Perso\GalerieBundle\Entity\Duel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Perso\GalerieBundle\Form\CommentaireType;
+use Perso\GalerieBundle\Form\CommentaireDuelType;
 use Perso\GalerieBundle\Form\PhotoType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\Translator;
@@ -141,7 +142,7 @@ class GalerieController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $duels = $em->getRepository('PersoGalerieBundle:Duel')->getAllDuelsDesc($this->getParameter('nb_duels_by_page'), $page);
+        $duels = $em->getRepository('PersoGalerieBundle:Duel')->getAllDuelsAsc($this->getParameter('nb_duels_by_page'), $page);
         //$duels = $em->getRepository('PersoGalerieBundle:Duel')->findBy(array('photoA' => 3));
 
         //$chaine = var_dump($duels);
@@ -153,51 +154,79 @@ class GalerieController extends Controller
         foreach($duels as $duel)
         {
             $commentaireDuel = new CommentaireDuel();
+            $commentaireDuel->setUser($this->getUser());
+            $commentaireDuel->setDuel($duel);
 
             if (true === $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-                $tabForms[$duel->getId()] = $this->createFormBuilder($commentaireDuel)
+                $monNewComment = new CommentaireDuelType($duel->getId());
+                $form = $this->createForm($monNewComment,$commentaireDuel);
+                $tabForms[$duel->getId()] = $form->createView();
+                /*$tabForms[$duel->getId()] = $this->createFormBuilder($commentaireDuel)
                     ->add('texte', 'text', array('label' => 'Un commentaire ?'))
                     ->getForm()
                     ->createView();
+                */
+
+
+                $dateFrom = new DateTime();
+                $dateNow = $duel->getDateFin();
+
+                //on envoie directement l'info à la vue comme quoi un duel est terminé ou non
+                if ($dateNow <= $dateFrom) {
+                    $tabFiniDuree[$duel->getId()] = true;
+                } else {
+                    $tabFiniDuree[$duel->getId()] = false;
+                }
+
+                $interval = $dateNow->diff($dateFrom);
+
+                $nbHeures = $interval->d * 24 + $interval->h;
+                $nbMinutes = $interval->i;
+                $nbSecondes = $interval->s;
+                if ($nbHeures < 10) {
+                    $nbHeures = '0' . $nbHeures;
+                }
+                if ($nbMinutes < 10) {
+                    $nbMinutes = '0' . $nbMinutes;
+                }
+                if ($nbSecondes < 10) {
+                    $nbSecondes = '0' . $nbSecondes;
+                }
+
+                $tabDureesRestantes[$duel->getId()] = "$nbHeures:$nbMinutes:$nbSecondes";
+
+                $commentairesRecup = $em->getRepository(
+                    'PersoGalerieBundle:CommentaireDuel'
+                )->getCommentairesByDuelDesc($duel);
+                $tabCommentaires[$duel->getId()] = $commentairesRecup;
+
+
+                /* Récupération de la valeur des champs pour le bon formulaire */
+
+                $request = $this->get('request');
+                if ($request->getMethod() == 'POST') {
+                    $array = $this->get('request')->request->keys();
+                    $myNameForm = $array[0];
+
+                    //on ne peut plus valider son commentaire si le duel est terminé
+                    if((!$tabFiniDuree[$duel->getId()] || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) && $myNameForm == 'perso_galeriebundle_' . $duel->getId()) {
+                        $form->bind($request);
+
+                        if ($form->isValid()) {
+                            $em->persist($commentaireDuel);
+                            $em->flush();
+
+                            $flash = $this->get('translator')->trans('alert.info.commentOk');
+                            $this->get('session')->getFlashBag()->add('success', $flash);
+
+                            return $this->redirect($this->generateUrl('perso_galerie_duels'));
+
+                        }
+                    }
+                }
             }
-
-            $dateFrom = new DateTime();
-            $dateNow = $duel->getDateFin();
-
-            //on envoie directement l'info à la vue comme quoi un duel est terminé ou non
-            if($dateNow <= $dateFrom) $tabFiniDuree[$duel->getId()] = true;
-            else $tabFiniDuree[$duel->getId()] = false;
-
-            $interval = $dateNow->diff($dateFrom);
-
-            $nbHeures = $interval->d * 24 + $interval->h;
-            $nbMinutes = $interval->i;
-            $nbSecondes = $interval->s;
-            if($nbHeures < 10) $nbHeures= '0'.$nbHeures;
-            if($nbMinutes < 10) $nbMinutes= '0'.$nbMinutes;
-            if($nbSecondes < 10) $nbSecondes= '0'.$nbSecondes;
-
-            $tabDureesRestantes[$duel->getId()] = "$nbHeures:$nbMinutes:$nbSecondes";
-
-            $commentairesRecup = $em->getRepository('PersoGalerieBundle:CommentaireDuel')->getCommentairesByDuelDesc($duel);
-            $tabCommentaires[$duel->getId()] = $commentairesRecup;
-
         }
 
-        /*
-        $request = $this->get('request');
-
-        if ($request->getMethod() == 'POST') {
-            $form1->bind($request);
-            if ($form1->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($commentateur);
-                $em->flush();
-                return new Response('ok commentateur');
-
-            }
-        }
-        */
 
         /*
         //on va récupérer tous les commentaires par ordre décroissant sur le champ createdAt
