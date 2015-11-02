@@ -208,7 +208,7 @@ class GalerieController extends Controller
                     $array = $this->get('request')->request->keys();
                     $myNameForm = $array[0];
 
-                    //on ne peut plus valider son commentaire si le duel est terminé
+                    //on ne peut plus valider son commentaire si le duel est terminé (sauf pour les admins)
                     if((!$tabFiniDuree[$duel->getId()] || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) && $myNameForm == 'perso_galeriebundle_' . $duel->getId()) {
                         $form->bind($request);
 
