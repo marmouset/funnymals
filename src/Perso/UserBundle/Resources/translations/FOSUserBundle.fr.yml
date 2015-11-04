@@ -4,6 +4,7 @@ infosProfile: Informations sur votre compte
 firstName: Prénom
 lastName: Nom
 newUser: Création de  votre compte
+connectUser: Connexion à votre compte
 ddn: Date de naissance
 monPass: Mot de passe
 chgPassProfile: Changement de votre mot de passe

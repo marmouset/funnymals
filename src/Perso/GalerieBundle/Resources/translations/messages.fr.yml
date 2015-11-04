@@ -1,3 +1,4 @@
+nameSite: FUNNYMALS
 newPic: NOUVELLE PHOTO
 alert:
     info:
@@ -7,13 +8,15 @@ alert:
         voteDuelOk: "Votre vote a bien été pris en compte !"
         voteDuelNotOk: "Vous ne pouvez pas voter deux fois pour le même duel..."
         voteDuelDateNotOk: "Ce duel est terminé, vous ne pouvez plus voter."
+        newPhotoOk: "Votre photo a bien été validée !"
 placeholderMotsCles: Séparez vos mots-clés avec la touche Entrée
 placeholderRechMotsCles: Mots-clés
 title:
     listPhotos: Liste des photos
     listDuels: Liste des duels
+    detailsPic: Détails pour la photo
 photo:
-      comments: "%count% commentaire|]1,+Inf]%count% commentaires"
+      comments: "%count% commentaire|%count% commentaires"
       nbVues: "Vu %count% fois"
 votez: "Votez"
 dejaVoteDuel: "Vous avez déjà voté pour ce duel..."
@@ -22,3 +25,21 @@ timeremaining: "Temps restant pour voter"
 heures: "Heures"
 minutes: "Minutes"
 secondes: "Secondes"
+titlePage: "GALERIE D'IMAGES"
+menu:
+    user:
+        deco : "Déconnexion"
+        inscr : "Inscription"
+        connect: "Connexion"
+    faceaface: "Face à Face"
+    search: "Chercher"
+ajoutezvotrephoto: "Ajoutez votre photo !"
+proposedby: 'Proposée par'
+useradit: 'a dit'
+backList: 'Revenir à la liste'
+form:
+    yourcomment: Un commentaire ?
+    validate: 'Valider'
+    legende: 'Titre'
+    desc: 'Descriptif'
+proposeNewPic: 'Proposez une nouvelle photo'

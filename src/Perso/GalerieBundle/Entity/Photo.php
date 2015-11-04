@@ -27,7 +27,7 @@ class Photo
 
     /**
      * @var string
-     * @Assert\Length(min = "9",max = "80")
+     * @Assert\Length(min = "5",max = "50")
      * @ORM\Column(name="legende", type="string", length=255)
      */
     private $legende;
@@ -41,7 +41,7 @@ class Photo
 
     /**
      * @var string
-     * @Assert\Length(min = "20",max = "200")
+     * @Assert\Length(min = "10",max = "200")
      * @ORM\Column(name="descriptif", type="string", length=255)
      */
     private $descriptif;

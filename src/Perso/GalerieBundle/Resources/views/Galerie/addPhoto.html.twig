@@ -13,7 +13,7 @@
 {% block body %}
 
     {% block titlePage %}
-        <div class="h3">Proposez une nouvelle photo</div>
+        <div class="h3">{{ 'proposeNewPic'|trans }}</div>
     {% endblock %}
 
     <div class="row">
@@ -21,13 +21,12 @@
             <div class="well">
                 <form method="post" {{ form_enctype(form) }}>
                     {{ form_widget(form) }}
-                    {#<input type="text" id="myTags" style="width:300px" placeholder="Validez chaque tag avec la touche Entrée" >#}
-                    <input type="submit" id="btn_submit" class="btn btn-primary" />
+                    <input type="submit" value="{{ 'form.validate'|trans }}" id="btn_submit" class="btn btn-primary" />
                 </form>
             </div>
         </div>
     </div>
-<a href="{{ path('perso_galerie_homepage') }}">Revenir à la liste</a>
+<a href="{{ path('perso_galerie_homepage') }}">{{ 'backList'|trans }}</a>
 {% endblock %}
 
 {% block javascripts %}

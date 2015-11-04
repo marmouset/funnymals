@@ -2,7 +2,13 @@ services:
 #    perso_galerie.example:
 #        class: Perso\GalerieBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
-    perso_galerieBundle.antispam:
-        class: Perso\GalerieBundle\Antispam\PersoAntispam
+
+    #perso_galerieBundle.antispam:
+    #    class: Perso\GalerieBundle\Antispam\PersoAntispam
+    #    tags:
+    #            -  { name: twig.extension }
+
+    perso_galeriebundle.last_route_event_listener:
+        class: Perso\GalerieBundle\EventListener\LastRouteListener
         tags:
-                -  { name: twig.extension }
+                - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 30 }

@@ -5,7 +5,8 @@
     <file url="file://$PROJECT_DIR$/app/Resources/TwigBundle/views/Exception/error404.html.twig" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Resources/views/base.html.twig" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/config/config.yml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/config/parameters.yml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/config/parameters.yml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/config/routing.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/config/security.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Perso/GalerieBundle/AugmenteVues/AugmenteVuesEvent.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Perso/GalerieBundle/Controller/GalerieController.php" charset="UTF-8" />
@@ -23,6 +24,7 @@
     <file url="file://$PROJECT_DIR$/src/Perso/GalerieBundle/Resources/views/Galerie/indexDuels.html.twig" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Perso/GalerieBundle/Resources/views/Galerie/voir.html.twig" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Perso/GalerieBundle/Resources/views/layout.html.twig" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Perso/UserBundle/Resources/translations/FOSUserBundle.en.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Perso/UserBundle/Resources/translations/FOSUserBundle.fr.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Perso/UserBundle/Resources/views/Profile/edit_content.html.twig" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Perso/UserBundle/Resources/views/Profile/show_details_user.html.twig" charset="UTF-8" />

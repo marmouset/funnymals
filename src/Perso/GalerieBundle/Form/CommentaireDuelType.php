@@ -22,7 +22,7 @@ class CommentaireDuelType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('texte',      'textarea', array('label' => 'Un commentaire ?'))
+            ->add('texte',      'textarea', array('label' => 'form.yourcomment'))
             ->add('name', 'hidden', array(
             'mapped' => false,
             ))

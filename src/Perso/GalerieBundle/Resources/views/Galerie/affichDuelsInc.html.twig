@@ -119,36 +119,40 @@
         </div>
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                {# if not tabFiniDuree[duel.id] #}
+
+                {% if not tabFiniDuree[duel.id] %}
+
                     {% if formulaires[duel.id] is defined %}
                             <div class="well">
                                 <form method="post">
                                     {{ form_widget(formulaires[duel.id]) }}
-                                    <input type="submit" class="btn btn-primary" />
+                                    <input type="submit" value="{{ 'form.validate'|trans }}" class="btn btn-primary" />
                                 </form>
                             </div>
                     {% endif %}
-                {# endif #}
+                {% endif %}
 
-                {#
-                {% for commentaire in commentaires %}
-                    {% if loop.first %}
-                        <table class="table tableCommentaires text-left"  id="firstComm">
-                    {% endif %}
 
-                    <tr><td>
+                {% for commentaire in commentaires[duel.id] %}
+
+                        {% if loop.first %}
+                            <div class="divIncludeTabCommDuel"><table class="table tableCommentaires text-left"  id="firstComm{{ duel.id }}">
+                        {% endif %}
+
+                        <tr><td>
 
                             <span class="glyphicon glyphicon-chevron-right"></span>
-                            Le {{ commentaire.createdAt|date("d/m/Y à H:i:s") }}, <strong><a href="{{ path('perso_user_view', {'username': commentaire.user.username}) }}">{{ commentaire.user.username }}</a> a dit : </strong><br />
+                                {{ commentaire.createdAt|localizeddate('medium', 'medium') }} <strong><a href="{{ path('perso_user_view', {'username': commentaire.user.username}) }}">{{ commentaire.user.username }}</a> {{ 'useradit'|trans }} : </strong><br />
                             {{ commentaire.texte }}
 
                         </td></tr>
 
-                    {% if loop.last %}
-                        </table>
-                    {% endif %}
+                        {% if loop.last %}
+                            </table></div>
+                        {% endif %}
                 {% endfor %}
-                #}
+
+
             </div>
         </div>
     </div>

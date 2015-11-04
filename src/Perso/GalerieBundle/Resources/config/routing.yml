@@ -31,6 +31,9 @@ perso_galerie_newduel:
     path:       /newduel
     defaults: { _controller: PersoGalerieBundle:Galerie:tmpAddDuel }
 
+select_lang:
+    pattern:  /select_lang/{langue}
+    defaults: { _controller: PersoGalerieBundle:Galerie:selectLang }
 
 #perso_galerie_duel:
 #    path:       /duel/{id}

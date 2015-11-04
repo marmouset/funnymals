@@ -3,3 +3,4 @@ perso_user_view:
     defaults: { _controller: PersoUserBundle:Profile:showDetails, page: 1 }
     requirements:
             page:  \d+
+

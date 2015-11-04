@@ -1,24 +1,45 @@
-newPic: NOUVELLE PHOTO
+nameSite: FUNNYMALS
+newPic: NEW PIC
 alert:
     info:
-        voteOk: Votre vote a bien été pris en compte
-        voteNotOk: Vous avez déjà enregistré un vote pour cette photo
-        commentOk: Votre commentaire a bien été ajouté !
-        voteDuelOk: "Votre vote a bien été pris en compte !"
-        voteDuelNotOk: "Vous ne pouvez pas voter deux fois pour le même duel..."
-        voteDuelDateNotOk: "Ce duel est terminé, vous ne pouvez plus voter."
-placeholderMotsCles: Séparez vos mots-clés avec la touche Entrée
-placeholderRechMotsCles: Mots-clés
+        voteOk: Your vote has been registered !
+        voteNotOk: You have already vote for this pic.
+        commentOk: Your comment has been added !
+        voteDuelOk: "Your vote has been registered !"
+        voteDuelNotOk: "You cannot vote twice for the same fight..."
+        voteDuelDateNotOk: "This fight is finished, you can't vote anymore."
+        newPhotoOk: "Your pic has been uploaded !"
+placeholderMotsCles: Separate your keywords with Enter
+placeholderRechMotsCles: Keywords
 title:
     listPhotos: All the pics
-    listDuels: Liste des duels
+    listDuels: All the fights
+    detailsPic: Informations about
 photo:
-      comments: "%count% commentaire|]1,+Inf]%count% commentaires"
-      nbVues: "Vu %count% fois"
-votez: "Votez"
-dejaVoteDuel: "Vous avez déjà voté pour ce duel..."
-timesup: "TERMINE"
-timeremaining: "Temps restant pour voter"
-heures: "Heures"
+      comments: "%count% comment|%count% comments"
+      nbVues: "%count% view|%count% views"
+votez: "Vote"
+dejaVoteDuel: "You have already vote for this fight..."
+timesup: "FINISHED"
+timeremaining: "Time remaining to vote"
+heures: "Hours"
 minutes: "Minutes"
-secondes: "Secondes"
+secondes: "Seconds"
+titlePage: "IMAGE GALLERY"
+menu:
+    user:
+        deco : "Logout"
+        inscr : "Register"
+        connect: "Connect"
+    faceaface: "Face to Face"
+    search: "Search"
+ajoutezvotrephoto: "Add your pic !"
+proposedby: 'Author : '
+useradit: 'said'
+backList: 'Back to the gallery'
+form:
+    yourcomment: Your comment :
+    validate: 'Submit'
+    legende: 'Title'
+    desc: 'Description'
+proposeNewPic: 'Send a new funny pic'

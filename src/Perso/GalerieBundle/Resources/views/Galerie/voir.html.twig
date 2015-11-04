@@ -7,13 +7,13 @@
     <style>
         [class*="col"] { margin-bottom: 15px; }
     </style>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/emojione/1.5.1/assets/css/emojione.min.css"/>
+
 {% endblock %}
 
 {% block body %}
 
     {% block titlePage %}
-        <div class="h3">Détails pour la photo : {{ photo.legende }}</div>
+        <div class="h3">{{ 'title.detailsPic'|trans }} : {{ photo.legende }}</div>
     {% endblock %}
 
     <div class="row">
@@ -22,7 +22,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="nbVuesOnePhoto label label-default">{{ 'photo.nbVues'|transchoice(photo.nbVues) }}</div>
-                    Proposée par <a href="{{ path('perso_user_view', {'username': photo.user.username}) }}">{{ photo.user.username }}</a>
+                    {{ 'proposedby'|trans }} <a href="{{ path('perso_user_view', {'username': photo.user.username}) }}">{{ photo.user.username }}</a>
                 </div>
                 <div class="panel-body">
 
@@ -43,7 +43,7 @@
                 </div>
 
                 {% if (photo.tags|length) > 0 %}
-                    <h6>Mots-clés :
+                    <h6>{{ 'placeholderRechMotsCles'|trans }} :
                         {% for tag in photo.tags %}
                                 <a href="{{ path('perso_galerie_homepage', {'page': 1, 'tags': tag.libTag}) }}" type="button" class="btn btn-default  btn-xs">#{{ tag.libTag }}</a>
                         {% endfor %}
@@ -55,7 +55,7 @@
                 <div class="well">
                     <form method="post">
                         {{ form_widget(form) }}
-                        <input type="submit" class="btn btn-primary" />
+                        <input type="submit" value="{{ 'form.validate'|trans }}" class="btn btn-primary" />
                     </form>
                 </div>
             {% endif %}
@@ -69,7 +69,8 @@
                 <tr><td>
 
                     <span class="glyphicon glyphicon-chevron-right"></span>
-                    Le {{ commentaire.createdAt|date("d/m/Y à H:i:s") }}, <strong><a href="{{ path('perso_user_view', {'username': commentaire.user.username}) }}">{{ commentaire.user.username }}</a> a dit : </strong><br />
+                        {# commentaire.createdAt|date("d/m/Y à H:i:s") #}
+                    {{ commentaire.createdAt|localizeddate('medium', 'medium') }} <strong><a href="{{ path('perso_user_view', {'username': commentaire.user.username}) }}">{{ commentaire.user.username }}</a> {{ 'useradit'|trans }} : </strong><br />
                     {{ commentaire.texte }}
 
                 </td></tr>
@@ -78,29 +79,13 @@
                     </table>
                 {% endif %}
             {% endfor %}
-            {#
-            {% for commentaire in commentaires %}
-                {% if loop.first %}
-                    <p class="bg-info text-left" id="firstComm">
-                {% else %}
-                    <p class="bg-info text-left">
-                {% endif %}
-                <p class="bg-info text-left">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    Le {{ commentaire.createdAt|date("d/m/Y à H:i:s") }}, <strong><a href="{{ path('perso_user_view', {'username': commentaire.user.username}) }}">{{ commentaire.user.username }}</a> a dit : </strong><br />
-                    {{ commentaire.texte }}
-                </p>
-            {% endfor %}
-            #}
         </div>
 
     </div>
-    <a href="{{ path('perso_galerie_homepage') }}">Revenir à la liste</a>
+    <a href="{{ path('perso_galerie_homepage') }}">{{ 'backList'|trans }}</a>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="//cdn.jsdelivr.net/emojione/1.5.1/lib/js/emojione.min.js"></script>
-    <script src="{{ asset('jquery-textcomplete-master/dist/jquery.textcomplete.min.js') }}"></script>
-    <script src="{{ asset('js/emojicon.js') }}"></script>
+
 {% endblock %}

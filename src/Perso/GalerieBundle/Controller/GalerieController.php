@@ -1,9 +1,8 @@
 <?php
+//Perso/GalerieBundle/Controller/GalerieController.php
 
 namespace Perso\GalerieBundle\Controller;
 
-//use Perso\GalerieBundle\AugmenteVues\AugmenteVuesEvent;
-//use Perso\GalerieBundle\AugmenteVues\AugmenteVuesEvents;
 use Perso\GalerieBundle\Entity\Photo;
 use Perso\GalerieBundle\Entity\Tag;
 use Perso\GalerieBundle\Entity\VoteUserPhoto;
@@ -16,15 +15,8 @@ use Perso\GalerieBundle\Form\CommentaireType;
 use Perso\GalerieBundle\Form\CommentaireDuelType;
 use Perso\GalerieBundle\Form\PhotoType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\Loader\ArrayLoader;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use \DateTime;
-
-//use Perso\GalerieBundle\AugmenteVues;
 use Symfony\Component\HttpFoundation\Response;
 
 class GalerieController extends Controller
@@ -32,43 +24,61 @@ class GalerieController extends Controller
     //page d'accueil du site, affichage des photos
     public function indexAction($page, $tags = null)
     {
-        //return $this->render('PersoGalerieBundle:Galerie:index.html.twig', array('name' => $name));
         $em = $this->getDoctrine()->getManager();
-        //$photos = $em->getRepository('PersoGalerieBundle:Photo')->findAll();
 
         //récupération via le formulaire de recherche
         if(isset($_POST["inputRechTags"])) $tags = $_POST["inputRechTags"];
 
         if(is_null($tags)) $photos = $em->getRepository('PersoGalerieBundle:Photo')->getAllPhotosDesc($this->getParameter('nb_img_by_page'), $page);
-        else {
-            $photos = $em->getRepository('PersoGalerieBundle:Photo')->getAllPhotosTagDesc($this->getParameter('nb_img_by_page'), $page, $tags);
-        }
-
-        /*$antispam = $this->container->get('perso_galerieBundle.antispam');
-        $text = 'gfdgfd@fdgfd.com gfdgfd@fdgfd.com ';
-        // Je pars du principe que $text contient le texte d'un message quelconque
-        if ($antispam->isSpam($text)) {
-            throw new \Exception('Votre message a été détecté comme spam !');
-        }
-        */
+        else $photos = $em->getRepository('PersoGalerieBundle:Photo')->getAllPhotosTagDesc($this->getParameter('nb_img_by_page'), $page, $tags);
 
         return $this->render('PersoGalerieBundle:Galerie:index.html.twig', array('photos' => $photos,
             'page'       => $page,
             'nombrePage' => ceil(count($photos)/$this->getParameter('nb_img_by_page'))));
     }
 
+    public function selectLangAction($langue)
+    {
+
+        if($langue != null)
+        {
+            $this->get('session')->set('_locale', $langue);
+        }
+
+        $url = $this->container->get('request')->headers->get('referer');
+        if(empty($url)) {
+            $url = 'perso_galerie_homepage';
+        }
+        else
+        {
+            $url = $this->get('session')->get('last_route', []);
+            $url = $url['name'];
+        }
+
+        //return new Response($url);
+
+
+        return $this->redirect(
+            $this->generateUrl(
+                $url,
+                array(
+                    '_locale' => $this->get('session')->get('_locale')
+                )
+            )
+        );
+
+    }
+
     //affichage d'une photo en particulier et de ses commentaires
     public function voirAction(Photo $photo)
     {
         $em = $this->getDoctrine()->getManager();
-        //$photo = $em->getRepository('PersoGalerieBundle:Photo')->find($photoGet->getId());
 
         //je crée mon évènement avec les bons paramètres
         /*
         $event = new AugmenteVuesEvent($photo, $this->getUser());
         $this->get('event_dispatcher')
             ->dispatch(AugmenteVuesEvents::onViewPhoto, $event);
-
         $photo->setNbVues($event.getPhoto());
         */
 
@@ -119,6 +129,7 @@ class GalerieController extends Controller
     /**
      * @Security("has_role('ROLE_ADMIN')")
      */
+    //todo : mettre en place les fixtures et suppr cette fonction !
     public function tmpAddDuelAction()
     {
         $myDuel = new Duel;
@@ -137,16 +148,13 @@ class GalerieController extends Controller
         return new Response("ok");
     }
 
-
+    //page d'accueil des duels
     public function voirDuelsAction($page)
     {
         $em = $this->getDoctrine()->getManager();
 
         $duels = $em->getRepository('PersoGalerieBundle:Duel')->getAllDuelsAsc($this->getParameter('nb_duels_by_page'), $page);
-        //$duels = $em->getRepository('PersoGalerieBundle:Duel')->findBy(array('photoA' => 3));
 
-        //$chaine = var_dump($duels);
-        //return new Response($chaine);
         $tabDureesRestantes = array();
         $tabCommentaires = array();
         $tabFiniDuree = array();
@@ -157,16 +165,17 @@ class GalerieController extends Controller
             $commentaireDuel->setUser($this->getUser());
             $commentaireDuel->setDuel($duel);
 
+            $commentairesRecup = $em->getRepository(
+                'PersoGalerieBundle:CommentaireDuel'
+            )->getCommentairesByDuelDesc($duel);
+            $tabCommentaires[$duel->getId()] = $commentairesRecup;
+
             if (true === $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
                 $monNewComment = new CommentaireDuelType($duel->getId());
                 $form = $this->createForm($monNewComment,$commentaireDuel);
-                $tabForms[$duel->getId()] = $form->createView();
-                /*$tabForms[$duel->getId()] = $this->createFormBuilder($commentaireDuel)
-                    ->add('texte', 'text', array('label' => 'Un commentaire ?'))
-                    ->getForm()
-                    ->createView();
-                */
 
+                //on va mettre de côté les formulaires de côté pour pouvoir tous les afficher dans la vue
+                $tabForms[$duel->getId()] = $form->createView();
 
                 $dateFrom = new DateTime();
                 $dateNow = $duel->getDateFin();
@@ -195,13 +204,13 @@ class GalerieController extends Controller
 
                 $tabDureesRestantes[$duel->getId()] = "$nbHeures:$nbMinutes:$nbSecondes";
 
-                $commentairesRecup = $em->getRepository(
-                    'PersoGalerieBundle:CommentaireDuel'
-                )->getCommentairesByDuelDesc($duel);
-                $tabCommentaires[$duel->getId()] = $commentairesRecup;
 
 
-                /* Récupération de la valeur des champs pour le bon formulaire */
+
+                /*
+                Récupération de la valeur des champs pour le bon formulaire
+                vu qu'il y en a autant que de duels
+                */
 
                 $request = $this->get('request');
                 if ($request->getMethod() == 'POST') {
@@ -228,40 +237,9 @@ class GalerieController extends Controller
         }
 
 
-        /*
-        //on va récupérer tous les commentaires par ordre décroissant sur le champ createdAt
-        $commentairesRecup = $em->getRepository('PersoGalerieBundle:Commentaire')->getCommentairesByPhotoDesc($photo);
-
-        if(null != $this->getUser())
-        {
-            $commentaire = new Commentaire;
-            $commentaire->setUser($this->getUser());
-            $form = $this->createForm(new CommentaireType, $commentaire);
 
 
-            $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->submit($request);
 
-                if ($form->isValid()) {
-                    $em = $this->getDoctrine()->getManager();
-
-                    $photo->addCommentaire($commentaire);
-                    $em->persist($commentaire);
-                    $em->flush();
-
-                    $flash = $this->get('translator')->trans('alert.info.commentOk');
-                    $this->get('session')->getFlashBag()->add('success', $flash);
-
-                    return $this->redirect($this->generateUrl('perso_galerie_viewOne', array('slug' => $photo->getSlug())));
-                }
-            }
-
-            return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'form'      => $form->createView(), 'commentaires' => $commentairesRecup));
-        }
-
-        return $this->render('PersoGalerieBundle:Galerie:voir.html.twig', array('photo' => $photo, 'commentaires' => $commentairesRecup));
-        */
 
         return $this->render('PersoGalerieBundle:Galerie:indexDuels.html.twig', array('duels' => $duels,
             'page'       => $page,
@@ -278,6 +256,7 @@ class GalerieController extends Controller
      * @ParamConverter("duel", options={"mapping": {"idDuel": "id"}})
      * @ParamConverter("photo", options={"mapping": {"slug": "slug"}})
      */
+    //gestion du vote sur les photos comprises dans les duels
     public function voteDuelAction(Duel $duel, Photo $photo)
     {
         $em = $this->getDoctrine()->getManager();
@@ -322,7 +301,6 @@ class GalerieController extends Controller
         $flash = $this->get('translator')->trans('alert.info.voteDuelOk');
         $this->get('session')->getFlashBag()->add('success', $flash);
 
-        //return $this->render('PersoGalerieBundle:Galerie:indexDuels.html.twig', array());
         return $this->redirect($this->generateUrl('perso_galerie_duels'));
     }
 
@@ -343,7 +321,6 @@ class GalerieController extends Controller
 
         $existeVote = false;
         foreach($VoteUserPhotos as $VoteUserPhoto) {
-            //$VoteUserPhoto->getPhoto()->getLegende();
             $existeVote = true;
         }
 
@@ -374,16 +351,15 @@ class GalerieController extends Controller
             $flash = $this->get('translator')->trans('alert.info.voteNotOk');
             $this->get('session')->getFlashBag()->add('danger', $flash);
 
-            //return $this->redirect($this->generateUrl('perso_galerie_homepage'));
             return $this->redirect($this->generateUrl('perso_galerie_viewOne', array('slug' => $photoGet->getSlug())));
         }
     }
 
-    //ajout d'une nouvelle photo
+    //ajout d'une nouvelle photo avec gestion des tags
     public function addPhotoAction()
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw new AccessDeniedException('Accès limité aux auteurs.');
+            throw new AccessDeniedException('Accès limité.');
         }
 
         $photo = new Photo;
@@ -407,26 +383,34 @@ class GalerieController extends Controller
                 foreach($tabRecupTags as $eachTag)
                 {
                     $eachTagPure = trim($eachTag);
-                    //$tagTrouv = $em->getRepository('PersoGalerieBundle:Tag')->findOneByLibTag($eachTagPure);
-                    $tagTrouv = $em->getRepository('PersoGalerieBundle:Tag')->findOneBy(array('libTag' => $eachTagPure));
-                    if(null === $tagTrouv)
-                    {
-                        //on ajoute dans l'entité Tag et on lie à la photo
-                        $newTag = new Tag;
-                        $newTag->setLibTag($eachTagPure);
-                        $em->persist($newTag);
-                        $photo->addTag($newTag);
-                    }
-                    else
-                    {
-                        //on se contente de lier le tag existant à la photo
-                        $photo->addTag($tagTrouv);
+
+                    if($eachTagPure != '') {
+                        $tagTrouv = $em->getRepository('PersoGalerieBundle:Tag')->findOneBy(
+                            array('libTag' => $eachTagPure)
+                        );
+                        if (null === $tagTrouv) {
+                            //on ajoute dans l'entité Tag et on lie à la photo
+                            $newTag = new Tag;
+                            $newTag->setLibTag($eachTagPure);
+                            $em->persist($newTag);
+                            $photo->addTag($newTag);
+                        } else {
+                            //on se contente de lier le tag existant à la photo
+                            $photo->addTag($tagTrouv);
+                        }
                     }
                 }
 
-                $this->get('session')->getFlashBag()->add('success', 'Votre photo a bien été validée !');
+                $flash = $this->get('translator')->trans('alert.info.newPhotoOk');
+                $this->get('session')->getFlashBag()->add('success', $flash);
 
-                //$em = $this->getDoctrine()->getManager();
+                //todo: remplacer les insultes dans les commentaires + legendes photos avant de flusher
+                /*$censure = $this->container->get('perso_galerieBundle.censure');
+                if ($censure->isVulgaire($text)) {
+
+                }
+                */
+
                 $em->persist($photo);
                 $em->flush();
 
@@ -438,4 +422,5 @@ class GalerieController extends Controller
             'form' => $form->createView(),
         ));
     }
+
 }

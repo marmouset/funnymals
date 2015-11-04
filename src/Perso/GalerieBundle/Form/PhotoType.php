@@ -16,8 +16,8 @@ class PhotoType extends AbstractType
     {
         $builder
             //->add('titre', 'text', array('label_attr' => array('class' => 'control-label')))
-            ->add('legende',   'text', array('label_attr' => array('class' => 'myLabel')))
-            ->add('descriptif',   'textarea', array('label_attr' => array('class' => 'myLabel')))
+            ->add('legende',   'text', array('label' => 'form.legende','label_attr' => array('class' => 'myLabel')))
+            ->add('descriptif',   'textarea', array('label' => 'form.desc','label_attr' => array('class' => 'myLabel')))
             ->add('file',       'file', array('label_attr' => array('class' => 'myLabel')))
             ->add('myTags', 'hidden', array(
                 'mapped' => false,

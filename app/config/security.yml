@@ -27,7 +27,7 @@ security:
                 default_target_path: perso_galerie_homepage
             logout:
                 path:       fos_user_security_logout
-                target:     /
+                target:     perso_galerie_homepage
             anonymous: true
             # activate different ways to authenticate
 

@@ -2,7 +2,7 @@
 <html lang="{{ app.request.locale|split('_')[0] }}">
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}GALERIE D'IMAGES{% endblock %}</title>
+        <title>{% block title %}{{ 'titlePage'|trans }}{% endblock %}</title>
         {% block stylesheets %}
             <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
             <style>
@@ -16,9 +16,12 @@
 
             </style>
             <link rel="stylesheet" href="{{ asset('css/main.css') }}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('css/flags.css') }}" type="text/css" />
+            <link rel="stylesheet" href="//cdn.jsdelivr.net/emojione/1.5.1/assets/css/emojione.min.css"/>
         {% endblock %}
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
     </head>
     <body>
 
@@ -28,7 +31,7 @@
 
                 <h1 class="jumbotron">
                     <div id="logoFDB"></div>
-                    <span id="titreSite"><a href="{{ path('perso_galerie_homepage') }}">FACE DE BOUK !</a></span>
+                    <span id="titreSite"><a href="{{ path('perso_galerie_homepage') }}">{{ 'nameSite'|trans }}</a></span>
                 </h1>
             </div>
 
@@ -60,15 +63,15 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a href="{{ path('fos_user_profile_edit') }}">{{ 'viewProfile'|trans({}, 'FOSUserBundle') }}</a></li>
-                                            <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                                            <li><a href="{{ path('fos_user_security_logout') }}">{{ 'menu.user.deco'|trans }}</a></li>
                                         </ul>
                                     </li>
 
 
                                 {% else %}
 
-                                    <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
-                                    <li class="active"><a href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
+                                    <li><a href="{{ path('fos_user_security_login') }}">{{ 'menu.user.connect'|trans }}</a></li>
+                                    <li class="active"><a href="{{ path('fos_user_registration_register') }}">{{ 'menu.user.inscr'|trans }}</a></li>
 
                                 {% endif %}
 
@@ -78,18 +81,50 @@
                                 <li>
                                     <a href="{{ path('perso_galerie_duels') }}">
                                         <span class="glyphicon glyphicon-flash"></span>
-                                        Face à Face
+                                        {{ 'menu.faceaface'|trans }}
                                     </a>
                                 </li>
                             </ul>
+
+                            <div class="navbar-form navbar-right" id="divBlockLanguage">
+
+                                    <nav class="nav-collapse" role="navigation">
+                                        <ul class="nav">
+                                            <li class="divider-vertical"></li>
+                                            <li class="dropdown">
+                                                <div data-toggle="dropdown" class="dropdown-toggle" class="containCountry">
+                                                    <div class="flag flag-{{ app.request.locale }} pull-left"></div>
+                                                    <span class="caret"></span>
+                                                </div>
+                                                <ul class="dropdown-menu dropdown-menu-country">
+                                                    {% for i in 0 .. 2 %}
+                                                        {% if app.request.locale != languages[i] %}
+                                                            <li onclick="window.location='{{ path('select_lang', {'langue' : languages[i]}) }}'"><div class="containCountry"><div class="flag flag-{{ languages[i] }} pull-left"></div>
+                                                                &nbsp;&nbsp;&nbsp;{{ languages_long[i] }}
+                                                            </div></li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+                            </div>
+
+
 
                             <form method="post" action="{{ path('perso_galerie_homepage') }}" class="navbar-form navbar-right" role="search">
                                 <div class="form-group">
 
                                     <input type="text" class="form-control" id="inputRechTags" name="inputRechTags" placeholder="{{ 'placeholderRechMotsCles'|trans }}">
                                 </div>
-                                <button type="submit" class="btn btn-default">Chercher</button>
+                                <button type="submit" class="btn btn-default">{{ 'menu.search'|trans }}</button>
                             </form>
+
+
+
+
+
 
                         </div><!-- /.navbar-collapse -->
 
@@ -113,14 +148,33 @@
 
         </div>
 
+        <footer class="footer">
+            <div class="container">
+                <div class="col-xs-3">
+                    Funnymals vous permet de m
+                </div>
+                <div class="col-xs-3">
+
+                </div>
+                <div class="col-xs-3">
+
+                </div>
+                <div class="col-xs-3">
+
+                </div>
+            </div>
+        </footer>
 
         {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+            <script src="//cdn.jsdelivr.net/emojione/1.5.1/lib/js/emojione.min.js"></script>
+
             <script src="{{ asset('js/main.js') }}"></script>
             <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-
+            <script src="{{ asset('jquery-textcomplete-master/dist/jquery.textcomplete.min.js') }}"></script>
+            <script src="{{ asset('js/emojicon.js') }}"></script>
         {% endblock %}
     </body>
 
