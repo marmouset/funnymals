@@ -90,7 +90,7 @@ class Photo
     private $commentaires;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Perso\GalerieBundle\Entity\Tag", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Perso\GalerieBundle\Entity\Tag", cascade={"persist"}, mappedBy="photos")
      *
      */
     private $tags;
@@ -286,6 +286,15 @@ class Photo
         return $this;
     }
 
+
+
+
+    public function slugify()
+    {
+        return true;
+    }
+
+
     /**
      * Get descriptif
      *
@@ -445,6 +454,8 @@ class Photo
     public function addTag(\Perso\GalerieBundle\Entity\Tag $tag)
     {
         $this->tags[] = $tag;
+
+        $tag->addPhoto($this);
 
         return $this;
     }

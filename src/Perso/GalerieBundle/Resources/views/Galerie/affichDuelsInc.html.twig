@@ -119,16 +119,17 @@
         </div>
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
+                {% if tabFiniDuree is defined %}
+                    {% if not tabFiniDuree[duel.id] %}
 
-                {% if not tabFiniDuree[duel.id] %}
-
-                    {% if formulaires[duel.id] is defined %}
-                            <div class="well">
-                                <form method="post">
-                                    {{ form_widget(formulaires[duel.id]) }}
-                                    <input type="submit" value="{{ 'form.validate'|trans }}" class="btn btn-primary" />
-                                </form>
-                            </div>
+                        {% if formulaires[duel.id] is defined %}
+                                <div class="well">
+                                    <form method="post">
+                                        {{ form_widget(formulaires[duel.id]) }}
+                                        <input type="submit" value="{{ 'form.validate'|trans }}" class="btn btn-primary" />
+                                    </form>
+                                </div>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
 

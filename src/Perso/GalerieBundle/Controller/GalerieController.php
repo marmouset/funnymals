@@ -15,6 +15,8 @@ use Perso\GalerieBundle\Form\CommentaireType;
 use Perso\GalerieBundle\Form\CommentaireDuelType;
 use Perso\GalerieBundle\Form\PhotoType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use \DateTime;
 use Symfony\Component\HttpFoundation\Response;
@@ -135,8 +137,8 @@ class GalerieController extends Controller
         $myDuel = new Duel;
         $em = $this->getDoctrine()->getManager();
 
-        $photoA = $em->getRepository("PersoGalerieBundle:Photo")->find(6);
-        $photoB = $em->getRepository("PersoGalerieBundle:Photo")->find(7);
+        $photoA = $em->getRepository("PersoGalerieBundle:Photo")->find(26);
+        $photoB = $em->getRepository("PersoGalerieBundle:Photo")->find(31);
 
 
         $myDuel->setPhotoA($photoA);
@@ -161,50 +163,50 @@ class GalerieController extends Controller
         $tabForms = array();
         foreach($duels as $duel)
         {
-            $commentaireDuel = new CommentaireDuel();
-            $commentaireDuel->setUser($this->getUser());
-            $commentaireDuel->setDuel($duel);
-
             $commentairesRecup = $em->getRepository(
                 'PersoGalerieBundle:CommentaireDuel'
             )->getCommentairesByDuelDesc($duel);
             $tabCommentaires[$duel->getId()] = $commentairesRecup;
 
+
+            $dateFrom = new DateTime();
+            $dateNow = $duel->getDateFin();
+
+            //on envoie directement l'info à la vue comme quoi un duel est terminé ou non
+            if ($dateNow <= $dateFrom) {
+                $tabFiniDuree[$duel->getId()] = true;
+            } else {
+                $tabFiniDuree[$duel->getId()] = false;
+            }
+
+            $interval = $dateNow->diff($dateFrom);
+
+            $nbHeures = $interval->d * 24 + $interval->h;
+            $nbMinutes = $interval->i;
+            $nbSecondes = $interval->s;
+            if ($nbHeures < 10) {
+                $nbHeures = '0' . $nbHeures;
+            }
+            if ($nbMinutes < 10) {
+                $nbMinutes = '0' . $nbMinutes;
+            }
+            if ($nbSecondes < 10) {
+                $nbSecondes = '0' . $nbSecondes;
+            }
+
+            $tabDureesRestantes[$duel->getId()] = "$nbHeures:$nbMinutes:$nbSecondes";
+
             if (true === $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+
+                $commentaireDuel = new CommentaireDuel();
+                $commentaireDuel->setUser($this->getUser());
+                $commentaireDuel->setDuel($duel);
+
                 $monNewComment = new CommentaireDuelType($duel->getId());
                 $form = $this->createForm($monNewComment,$commentaireDuel);
 
                 //on va mettre de côté les formulaires de côté pour pouvoir tous les afficher dans la vue
                 $tabForms[$duel->getId()] = $form->createView();
-
-                $dateFrom = new DateTime();
-                $dateNow = $duel->getDateFin();
-
-                //on envoie directement l'info à la vue comme quoi un duel est terminé ou non
-                if ($dateNow <= $dateFrom) {
-                    $tabFiniDuree[$duel->getId()] = true;
-                } else {
-                    $tabFiniDuree[$duel->getId()] = false;
-                }
-
-                $interval = $dateNow->diff($dateFrom);
-
-                $nbHeures = $interval->d * 24 + $interval->h;
-                $nbMinutes = $interval->i;
-                $nbSecondes = $interval->s;
-                if ($nbHeures < 10) {
-                    $nbHeures = '0' . $nbHeures;
-                }
-                if ($nbMinutes < 10) {
-                    $nbMinutes = '0' . $nbMinutes;
-                }
-                if ($nbSecondes < 10) {
-                    $nbSecondes = '0' . $nbSecondes;
-                }
-
-                $tabDureesRestantes[$duel->getId()] = "$nbHeures:$nbMinutes:$nbSecondes";
-
-
 
 
                 /*
@@ -236,18 +238,24 @@ class GalerieController extends Controller
             }
         }
 
-
-
-
-
-
-        return $this->render('PersoGalerieBundle:Galerie:indexDuels.html.twig', array('duels' => $duels,
-            'page'       => $page,
-            'tabDureesRestantes' => $tabDureesRestantes,
-            'tabFiniDuree' => $tabFiniDuree,
-            'commentaires' => $tabCommentaires,
-            'formulaires' => $tabForms,
-            'nombrePage' => ceil(count($duels)/$this->getParameter('nb_duels_by_page'))));
+        if (true === $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->render('PersoGalerieBundle:Galerie:indexDuels.html.twig', array('duels' => $duels,
+                'page'       => $page,
+                'tabDureesRestantes' => $tabDureesRestantes,
+                'tabFiniDuree' => $tabFiniDuree,
+                'commentaires' => $tabCommentaires,
+                'formulaires' => $tabForms,
+                'nombrePage' => ceil(count($duels)/$this->getParameter('nb_duels_by_page'))));
+        }
+        else
+        {
+            return $this->render('PersoGalerieBundle:Galerie:indexDuels.html.twig', array('duels' => $duels,
+                'page'       => $page,
+                'tabDureesRestantes' => $tabDureesRestantes,
+                'tabFiniDuree' => $tabFiniDuree,
+                'commentaires' => $tabCommentaires,
+                'nombrePage' => ceil(count($duels)/$this->getParameter('nb_duels_by_page'))));
+        }
 
     }
 

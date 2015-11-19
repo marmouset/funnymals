@@ -28,6 +28,11 @@ class Tag
      */
     private $libTag;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Perso\GalerieBundle\Entity\Photo", cascade={"persist"}, inversedBy="tags")
+     *
+     */
+    private $photos;
 
     /**
      * Get id
@@ -62,5 +67,45 @@ class Tag
     {
         return $this->libTag;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add photo
+     *
+     * @param \Perso\GalerieBundle\Entity\Photo $photo
+     *
+     * @return Tag
+     */
+    public function addPhoto(\Perso\GalerieBundle\Entity\Photo $photo)
+    {
+        $this->photos[] = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Remove photo
+     *
+     * @param \Perso\GalerieBundle\Entity\Photo $photo
+     */
+    public function removePhoto(\Perso\GalerieBundle\Entity\Photo $photo)
+    {
+        $this->photos->removeElement($photo);
+    }
+
+    /**
+     * Get photos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+}

@@ -10,7 +10,9 @@ class PhotoTest extends \PHPUnit_Framework_TestCase
     public function testgetDescriptif()
     {
         $maPhoto = new Photo();
+        $maPhoto->setDescriptif('ok good');
 
-        $this->assertEquals('hello-world', $blog->slugify('Hello World'));
+        $this->assertTrue($maPhoto->slugify());
+        $this->assertEquals('ok good',$maPhoto->getDescriptif());
     }
 }

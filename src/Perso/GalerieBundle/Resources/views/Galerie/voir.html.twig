@@ -45,7 +45,7 @@
                 {% if (photo.tags|length) > 0 %}
                     <h6>{{ 'placeholderRechMotsCles'|trans }} :
                         {% for tag in photo.tags %}
-                                <a href="{{ path('perso_galerie_homepage', {'page': 1, 'tags': tag.libTag}) }}" type="button" class="btn btn-default  btn-xs">#{{ tag.libTag }}</a>
+                                <a href="{{ path('perso_galerie_homepage', {'page': 1, 'tags': tag.libTag}) }}" type="button" class="btn btn-default btn-xs">#{{ tag.libTag }}</a>
                         {% endfor %}
                     </h6>
                 {% endif %}

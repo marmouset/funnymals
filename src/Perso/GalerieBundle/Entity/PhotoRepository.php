@@ -29,6 +29,8 @@ class PhotoRepository extends \Doctrine\ORM\EntityRepository
         return new Paginator($query);
     }
 
+
+
     public function getAllPhotosDesc($nombreParPage, $page)
     {
         if ($page < 1) {

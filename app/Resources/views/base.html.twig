@@ -39,15 +39,42 @@
                 <nav class="navbar navbar-inverse">
                     <div class="container-fluid">
                         <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
+                        <div class="navbar-header text-right pointer">
+
+                            <div class="pull-right" id="divBlockLanguage">
+
+                                <nav class="nav-collapse" role="navigation">
+                                    <ul class="nav">
+                                        <li class="dropdown">
+                                            <div data-toggle="dropdown" class="dropdown-toggle" class="containCountry">
+                                                <div class="flag flag-{{ app.request.locale }} pull-left"></div>
+                                                <span class="caret"></span>
+                                            </div>
+                                            <ul class="dropdown-menu dropdown-menu-country menucountry">
+                                                {% for i in 0 .. 2 %}
+                                                    {% if app.request.locale != languages[i] %}
+                                                        <li onclick="window.location='{{ path('select_lang', {'langue' : languages[i]}) }}'"><div class="containCountry"><div class="flag flag-{{ languages[i] }} pull-left"></div>
+                                                                &nbsp;&nbsp;&nbsp;{{ languages_long[i] }}
+                                                            </div></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+                            </div>
+
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menuCollapse" aria-expanded="false">
                                 <span class="sr-only">Toggle navigation</span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="{{ path('perso_galerie_homepage') }}">FaceDeBouk</a>
+                            <a class="navbar-brand" href="{{ path('perso_galerie_homepage') }}">{{ 'nameSite'|trans|capitalize }}</a>
                         </div>
+
+
 
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="menuCollapse">
@@ -86,30 +113,7 @@
                                 </li>
                             </ul>
 
-                            <div class="navbar-form navbar-right" id="divBlockLanguage">
 
-                                    <nav class="nav-collapse" role="navigation">
-                                        <ul class="nav">
-                                            <li class="divider-vertical"></li>
-                                            <li class="dropdown">
-                                                <div data-toggle="dropdown" class="dropdown-toggle" class="containCountry">
-                                                    <div class="flag flag-{{ app.request.locale }} pull-left"></div>
-                                                    <span class="caret"></span>
-                                                </div>
-                                                <ul class="dropdown-menu dropdown-menu-country">
-                                                    {% for i in 0 .. 2 %}
-                                                        {% if app.request.locale != languages[i] %}
-                                                            <li onclick="window.location='{{ path('select_lang', {'langue' : languages[i]}) }}'"><div class="containCountry"><div class="flag flag-{{ languages[i] }} pull-left"></div>
-                                                                &nbsp;&nbsp;&nbsp;{{ languages_long[i] }}
-                                                            </div></li>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </nav>
-
-                            </div>
 
 
 
@@ -117,8 +121,10 @@
                                 <div class="form-group">
 
                                     <input type="text" class="form-control" id="inputRechTags" name="inputRechTags" placeholder="{{ 'placeholderRechMotsCles'|trans }}">
+                                    <button type="submit" class="btn btn-default">{{ 'menu.search'|trans }}</button>
+
                                 </div>
-                                <button type="submit" class="btn btn-default">{{ 'menu.search'|trans }}</button>
+
                             </form>
 
 
@@ -150,16 +156,46 @@
 
         <footer class="footer">
             <div class="container">
-                <div class="col-xs-3">
-                    Funnymals vous permet de m
+                <div class="visible-lg-block col-lg-3 text-left">
+                    {{ 'footer.descriptif'|trans|raw }}
                 </div>
-                <div class="col-xs-3">
 
+                <div class="hidden-xs col-sm-4 col-lg-3 text-left">
+                    {{ 'footer.social'|trans }} :<br />
+                    <div class="socialImg socialImg-fb"></div>
+                    <div class="socialImg socialImg-tw"></div>
+                    <div class="socialImg socialImg-go"></div>
+                    <div class="socialImg socialImg-mail"></div>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-4 visible-xs-block text-left">
+                    {{ 'footer.socialshort'|trans }} :<br />
+                    <div class="socialImg socialImg-fb"></div>
+                    <div class="socialImg socialImg-tw"></div>
+                    <div class="socialImg socialImg-go"></div>
+                    <div class="socialImg socialImg-mail"></div>
+                </div>
 
+
+                <div class="col-xs-4 col-lg-3 text-left">
+                    {{ 'footer.contact'|trans }}<br />
+                    {{ 'footer.plansite'|trans }}<br />
+                    {{ 'footer.faq'|trans }}<br />
+                    {{ 'footer.mentions'|trans }}<br />
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-4 col-lg-3 text-left">
+                    Les tags les plus utilisés :<br />
+
+                    {% for tag in displayTags() %}
+
+                        <a href="{{ path('perso_galerie_homepage', {'page': 1, 'tags': tag.libTag}) }}" type="button" class="btn btn-default btn-xs">#{{ tag.libTag }}</a>
+                    {% endfor %}
+
+
+                    {#
+                    {% for tag in displayTags() %}
+                        <a href="{{ path('perso_galerie_homepage', {'page': 1, 'tags': tag.libTag}) }}" type="button" class="btn btn-default btn-xs">#{{ tag.libTag }}</a>
+                    {% endfor %}
+                    #}
 
                 </div>
             </div>

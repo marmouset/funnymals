@@ -1,3 +1,8 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 .blocPhoto {
 
     width:100px;
@@ -13,6 +18,7 @@ body {
     background-size:   cover;
     background-repeat: no-repeat;
     background-position: left center;
+    margin-bottom: 130px;
 }
 
 .empty {
@@ -114,12 +120,30 @@ body {
     top:43px;
 }
 
-#inputRechTags {
-    width:100%;
+.pointer {
+    cursor:pointer;
 }
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #inputRechTags {
+        width:140px;
+
+    }
+}
+@media (max-width: 767px) {
+    #inputRechTags {
+        width:80%;
+        float:left;
+
+    }
+}
+
 
 #divBlockLanguage {
     height:32px;
+    line-height:32px;
+    margin-top:9px;
+    margin-right:10px;
 }
 
 #titreSite {
@@ -284,10 +308,49 @@ textarea.dropdown-menu li:hover a {
 }
 
 .footer {
-    position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 60px;
-    background-color: #f5f5f5;
+    height: 120px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    padding-top:20px;
+    color:#888;
+    background-color: #090909;
+    /*position: absolute;
+    margin-top:20px;
+    width: 100%;
+    height: 185px;
+    */
 }
+
+.colorBase {
+    color:#888;
+}
+
+.containCountry {
+    line-height:32px;
+    margin-left:5px;
+    margin-right:5px;
+    cursor:pointer;
+}
+
+.menucountry {
+    margin-left:-107px;
+}
+
+.socialImg {
+    background:url('../img/socicons.png') no-repeat;
+    cursor:pointer;
+    width: 37px;height: 37px;
+    float:left;
+    margin-right:3px;
+    top:3px;
+    margin-top:10px;
+}
+
+
+.socialImg.socialImg-tw { background-position: -0px -0px }
+.socialImg.socialImg-fb { background-position: -40px -0px }
+.socialImg.socialImg-go { background-position: -78px -0px }
+.socialImg.socialImg-mail { background-position: -118px -0px }
