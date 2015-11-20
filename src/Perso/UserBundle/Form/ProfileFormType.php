@@ -13,6 +13,8 @@ class ProfileFormType extends BaseType
     {
         parent::buildUserForm($builder, $options);
         $builder
+            ->add('profilePictureFile')
+
             ->add('first_name',null, array('label' => 'firstName', 'translation_domain' => 'FOSUserBundle'))
             ->add('last_name',null, array('label' => 'lastName', 'translation_domain' => 'FOSUserBundle'))
             ->add('ddn',null, array('label' => 'ddn', 'translation_domain' => 'FOSUserBundle'))

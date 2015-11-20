@@ -81,6 +81,8 @@ class ProfileController extends BaseController
         $form = $formFactory->createForm();
         $form->setData($user);
 
+        //$form->get('imgUser')->setData('John');
+
         $form->handleRequest($request);
 
 

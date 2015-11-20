@@ -16,34 +16,45 @@
     {% endblock %}
 
     <div class="row">
-        <div class="col-xs-6 col-xs-offset-3 well">
-            <table class="table table-striped text-left">
-                <tr>
-                    <td>
-                        Dernière connexion
-                    </td>
-                    <td>
-                        Le {{ user.lastLogin|date('Y-m-d H:i:s') }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Photos ajoutées
-                    </td>
-                    <td>
-                        {{ photos|length }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Commentaires
-                    </td>
-                    <td>
-                        {{ commentaires|length }}
-                    </td>
-                </tr>
-            </table>
+        <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 well">
+            <div class="row">
+                <div class="col-xs-4">
+                    {% if user.profilePicturePath is null %}
+                        <div class="avatarSmall img-circle img-thumbnail" alt="{{ 'alt.photo'|trans({'%user%': user.username}) }}"></div>
+                    {% else %}
+                        <img src="{{ asset(directory_avatars ~ '/' ~ user.profilePicturePath) }}" class="avatarSmall img-circle img-thumbnail" alt="{{ 'alt.photo'|trans({'%user%': user.username}) }}">
+                    {% endif %}
+                </div>
 
+                <div class="col-xs-8">
+                    <table class="table table-striped text-left" id="tabInfoUser">
+                        <tr>
+                            <td>
+                                Dernière connexion
+                            </td>
+                            <td>
+                                Le {{ user.lastLogin|date('d/m/y H:i:s') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Photos ajoutées
+                            </td>
+                            <td>
+                                {{ photos|length }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Commentaires
+                            </td>
+                            <td>
+                                {{ commentaires|length }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 

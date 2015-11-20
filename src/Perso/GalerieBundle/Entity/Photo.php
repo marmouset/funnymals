@@ -66,8 +66,8 @@ class Photo
      */
     private $nbDown;
 
-    /*
-    * @Assert\Image(maxSize="2M")
+    /**
+    * @Assert\Image(maxSize="1M")
     * @Assert\File
     */
     protected $file;

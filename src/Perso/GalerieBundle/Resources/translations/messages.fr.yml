@@ -51,3 +51,5 @@ footer:
     faq: 'Foire aux questions'
     mentions: 'Mentions légales'
     descriptif: Funnymals vous permet de partager les photos de vos animaux préférés. Plus ils tirent la tronche, mieux c'est !<br />Alors place aux sales tronches !
+alt:
+    photo: "Photo de %user%"

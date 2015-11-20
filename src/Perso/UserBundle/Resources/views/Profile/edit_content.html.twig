@@ -10,15 +10,24 @@
 
 
 <div  class="row">
-    <div class="col-xs-offset-3 col-xs-6">
+    <div class="col-xs-offset-2 col-xs-8">
         <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal fos_user_profile_edit">
 
+            <img src="{{ asset(app.user.getWebProfilePicturePath) }}" class="avatar img-circle img-thumbnail" alt="{{ 'form.photoUser'|trans }}">
+
+            <div class="form-group">
+                {{ form_errors(form.profilePictureFile) }}
+                <div class="input-group centre">
+                    <span class="infoBg-info">{{ 'form.photoUser'|trans }}</span>
+                    {{ form_widget(form.profilePictureFile) }}
+                </div>
+            </div>
 
             <div class="form-group">
                 {{ form_errors(form.email) }}
                 <div class="input-group centre">
                     <label class="input-group-addon">{{ 'form.email'|trans }}</label>
-                    {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+                    {{ form_widget(form.email, { 'attr': {'class': 'form-control_profile'} }) }}
 
                 </div>
             </div>
@@ -27,7 +36,7 @@
                 {{ form_errors(form.first_name) }}
                 <div class="input-group centre">
                     <label class="input-group-addon">{{ 'firstName'|trans }}</label>
-                    {{ form_widget(form.first_name, { 'attr': {'class': 'form-control'} }) }}
+                    {{ form_widget(form.first_name, { 'attr': {'class': 'form-control_profile'} }) }}
 
                 </div>
             </div>
@@ -37,7 +46,7 @@
 
                 <div class="input-group centre">
                     <label class="input-group-addon">{{ 'lastName'|trans }}</label>
-                    {{ form_widget(form.last_name, { 'attr': {'class': 'form-control'} }) }}
+                    {{ form_widget(form.last_name, { 'attr': {'class': 'form-control_profile'} }) }}
 
                 </div>
             </div>
@@ -47,7 +56,7 @@
 
                 <div class="input-group centre">
                     <label class="input-group-addon">{{ 'ddn'|trans }}</label>
-                    {{ form_widget(form.ddn, { 'attr': {'class': 'form-control'} }) }}
+                    {{ form_widget(form.ddn, { 'attr': {'class': 'form-control_profile'} }) }}
 
                 </div>
             </div>
@@ -55,10 +64,10 @@
 
             <div class="form-group">
                 {{ form_errors(form.current_password) }}
-                <span class="bg-info infoBg-info">{{ 'txtConfirmPass'|trans }}</span>
+                <span class="infoBg-info">{{ 'txtConfirmPass'|trans }}</span>
                 <div class="input-group centre">
                     <label class="input-group-addon">{{ 'monPass'|trans }}</label>
-                    {{ form_widget(form.current_password, { 'attr': {'class': 'form-control'} }) }}
+                    {{ form_widget(form.current_password, { 'attr': {'class': 'form-control_profile'} }) }}
 
                 </div>
             </div>

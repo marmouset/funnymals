@@ -9,4 +9,7 @@ ddn: Date de naissance
 monPass: Mot de passe
 chgPassProfile: Changement de votre mot de passe
 chgPassLink: Modifier votre mot de passe
-txtConfirmPass: Confirmez votre mot de passe pour effectuer les modifications
+txtConfirmPass: Mot de passe à entrer pour effectuer les modifications
+form:
+    photo: Photo
+    photoUser: Photo de profil

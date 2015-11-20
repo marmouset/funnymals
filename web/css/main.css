@@ -192,8 +192,11 @@ body {
 
 .infoBg-info {
     padding:4px;
-    border-radius: 5px;
     margin-bottom:2px;
+    font-weight:bold;
+    font-style:italic;
+    color:white;
+    text-shadow: 1px 1px 0px rgba(0,0,0, 1);
 }
 
 .linkWhite {
@@ -349,8 +352,38 @@ textarea.dropdown-menu li:hover a {
     margin-top:10px;
 }
 
+#tabInfoUser {
+    font-size:12px;
+}
+
+.avatar {
+    width:120px;
+    height:120px;
+    margin-bottom:10px;
+}
+.avatarEmpty {
+    width:120px;
+    height:120px;
+    margin-bottom:10px;
+    background-color:#aaa;
+}
+
+.avatarSmall {
+    width:120px;
+    height:120px;
+}
+.avatarSmallEmpty {
+    width:120px;
+    height:120px;
+    background-color:#aaa;
+}
+
 
 .socialImg.socialImg-tw { background-position: -0px -0px }
 .socialImg.socialImg-fb { background-position: -40px -0px }
 .socialImg.socialImg-go { background-position: -78px -0px }
 .socialImg.socialImg-mail { background-position: -118px -0px }
+
+.form-control_profile {
+    width:250px;
+}

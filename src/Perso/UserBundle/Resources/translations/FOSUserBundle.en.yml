@@ -10,3 +10,6 @@ monPass: Password
 chgPassProfile: Changing your password
 chgPassLink: Change your password
 txtConfirmPass: Confirm your password to change your details
+form:
+    photo: Your pic
+    photoUser: Profile Image
