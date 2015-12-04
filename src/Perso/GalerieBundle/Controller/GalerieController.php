@@ -17,7 +17,6 @@ use Perso\GalerieBundle\Form\PhotoType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use \DateTime;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -41,7 +40,6 @@ class GalerieController extends Controller
 
     public function selectLangAction($langue)
     {
-
         if($langue != null)
         {
             $this->get('session')->set('_locale', $langue);

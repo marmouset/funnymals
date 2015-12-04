@@ -356,28 +356,40 @@ textarea.dropdown-menu li:hover a {
     font-size:12px;
 }
 
+.centered {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
 .avatar {
     width:120px;
     height:120px;
-    margin-bottom:10px;
+    border:4px solid white;
+    background-size:   cover;
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+.avatarMicro {
+    width:50px;
+    height:50px;
 }
 .avatarEmpty {
-    width:120px;
-    height:120px;
-    margin-bottom:10px;
-    background-color:#aaa;
+    background-image:url("../img/icon-user-default.png");
+
 }
 
-.avatarSmall {
-    width:120px;
-    height:120px;
-}
-.avatarSmallEmpty {
-    width:120px;
-    height:120px;
-    background-color:#aaa;
-}
+.included {
 
+    position:absolute;
+    left: 40%;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
+    margin-left: 0px;
+}
 
 .socialImg.socialImg-tw { background-position: -0px -0px }
 .socialImg.socialImg-fb { background-position: -40px -0px }

@@ -1,3 +1,4 @@
+
 perso_galerie:
     resource: "@PersoGalerieBundle/Resources/config/routing.yml"
     prefix:   /{_locale}/
@@ -18,3 +19,11 @@ perso_user:
     prefix:   /{_locale}/
     requirements:
         _locale: "%languages_routing%"
+
+
+oauth_register:
+    pattern: /oauthRegister
+    defaults: { _controller: PersoGalerieBundle:Security:oauthRegister }
+my_oauth:
+    resource: "@PersoGalerieBundle/Resources/config/routingSecurityOAuth.yml"
+    prefix:   /oauth/

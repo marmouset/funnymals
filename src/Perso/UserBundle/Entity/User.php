@@ -64,9 +64,6 @@ class User extends BaseUser
 
 
 
-
-
-
     public function __construct()
     {
         parent::__construct();
@@ -317,5 +314,6 @@ class User extends BaseUser
             unlink($file);
         }
     }
+
 
 }

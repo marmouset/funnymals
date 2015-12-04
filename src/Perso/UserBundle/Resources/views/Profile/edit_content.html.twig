@@ -13,7 +13,13 @@
     <div class="col-xs-offset-2 col-xs-8">
         <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal fos_user_profile_edit">
 
-            <img src="{{ asset(app.user.getWebProfilePicturePath) }}" class="avatar img-circle img-thumbnail" alt="{{ 'form.photoUser'|trans }}">
+
+            {% if app.user.profilePicturePath is null %}
+                <div class="avatar avatarEmpty img-circle centered"></div>
+            {% else %}
+                <div style="background-image:url({{ asset(directory_avatars ~ '/' ~ app.user.profilePicturePath) }})" class="avatar img-circle centered" title="{{ 'form.photoUser'|trans }}"></div>
+            {% endif %}
+
 
             <div class="form-group">
                 {{ form_errors(form.profilePictureFile) }}

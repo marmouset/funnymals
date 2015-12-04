@@ -1,6 +1,7 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
+    perso_galerie.oauth_members.class: Perso\GalerieBundle\Services\OAuthMembersService
 #    parameter_name: value
 
 services:
@@ -15,4 +16,5 @@ services:
        class: Twig_Extensions_Extension_Intl
        tags:
            - { name: twig.extension }
-
+    my_oauth_members:
+        class: %perso_galerie.oauth_members.class%

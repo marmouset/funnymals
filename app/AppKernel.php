@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new Perso\UserBundle\PersoUserBundle(),
             new CMedia\Bundle\TagBundle\CMediaTagBundle(),
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
-
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

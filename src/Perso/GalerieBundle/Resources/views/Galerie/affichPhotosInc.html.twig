@@ -4,6 +4,13 @@
     <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
         <div class="thumbnail thumbnailPerso col-xs-11 col-xs-offset-1">
 
+            {% if photo.user.profilePicturePath is null %}
+                <div class="avatar avatarEmpty included img-circle"></div>
+            {% else %}
+                <div style="background-image:url({{ asset(directory_avatars ~ '/' ~ photo.user.profilePicturePath) }})" class="avatar avatarMicro included img-circle" title="{{ 'alt.photo'|trans({'%user%': photo.user.username}) }}"></div>
+
+            {% endif %}
+
             <div onclick="window.location='{{ path('perso_galerie_viewOne',{'slug':photo.slug}) }}'" class="thumbnail coverImg" style="background-image:url({{ asset('img/uploads/') }}{{ photo.url }})"></div>
             <div class="nbVues label label-default">{{ 'photo.nbVues'|transchoice(photo.nbVues) }}</div>
             <div class="nbComm label label-info"><a href="{{ path('perso_galerie_viewOne',{'slug':photo.slug}) }}#firstComm" class="linkWhite">{{ 'photo.comments'|transchoice(photo.commentaires|length) }}</a></div>

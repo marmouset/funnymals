@@ -51,5 +51,6 @@ footer:
     faq: 'Any question ?'
     mentions: 'Mentions'
     descriptif: Funnymals let you share pics of your lovely animals. <br />The more they make faces, <br />the best it is !
+    tagsUsed: Most used tags
 alt:
     photo: "%user%'s picture"
